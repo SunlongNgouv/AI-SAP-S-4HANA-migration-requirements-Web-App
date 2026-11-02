@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 560" width="1200" height="560" role="img" aria-labelledby="t d" font-family="Instrument Sans, Arial, Helvetica, sans-serif">
+<title id="t">A new business analyst&#x27;s first week</title><desc id="d">Five days: get access, capture a requirement, review the register, triage, then tidy and report.</desc>
+<rect width="1200" height="560" fill="#FFF5E3"/>
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#2D2A27"/></marker></defs>
+<text x="40" y="48" font-size="26" font-weight="700" fill="#2D2A27" text-anchor="start">Your first week as a business analyst</text>
+<text x="40" y="76" font-size="15" font-weight="400" fill="#6F675E" text-anchor="start">One short goal a day. Each day has a check at the end of the guide.</text>
+<line x1="100" y1="150" x2="1100" y2="150" stroke="#D0C8BA" stroke-width="4" stroke-linecap="round"/>
+<circle cx="143" cy="150" r="22" fill="#C5E4CC" stroke="#FFF5E3" stroke-width="5"/>
+<text x="143" y="156" font-size="16" font-weight="700" fill="#2D2A27" text-anchor="middle">1</text>
+<rect x="40" y="200" width="206" height="250" rx="16" fill="#FFFDF8" stroke="#D0C8BA" stroke-width="1.5"/>
+<text x="60" y="236" font-size="13" font-weight="600" fill="#6F675E" text-anchor="start">Day 1</text>
+<text x="60" y="264" font-size="19" font-weight="700" fill="#2D2A27" text-anchor="start">Get in</text>
+<circle cx="66" cy="301" r="4" fill="#C5E4CC"/>
+<text x="80" y="306" font-size="15" font-weight="400" fill="#2D2A27" text-anchor="start">Request access</text>
+<circle cx="66" cy="335" r="4" fill="#C5E4CC"/>
+<text x="80" y="340" font-size="15" font-weight="400" fill="#2D2A27" text-anchor="start">Take the tour</text>
+<circle cx="66" cy="369" r="4" fill="#C5E4CC"/>
+<text x="80" y="374" font-size="15" font-weight="400" fill="#2D2A27" text-anchor="start">Open the sheet</text>
+<rect x="60" y="396" width="166" height="34" rx="8" fill="#EFEDE8"/>
+<circle cx="369" cy="150" r="22" fill="#F2CDC4" stroke="#FFF5E3" stroke-width="5"/>
+<text x="369" y="156" font-size="16" font-weight="700" fill="#2D2A27" text-anchor="middle">2</text>
+<rect x="266" y="200" width="206" height="250" rx="16" fill="#FFFDF8" stroke="#D0C8BA" stroke-width="1.5"/>
+<text x="286" y="236" font-size="13" font-weight="600" fill="#6F675E" text-anchor="start">Day 2</text>
+<text x="286" y="264" font-size="19" font-weight="700" fill="#2D2A27" text-anchor="start">Capture</text>
+<circle cx="292" cy="301" r="4" fill="#F2CDC4"/>
+<text x="306" y="306" font-size="15" font-weight="400" fill="#2D2A27" text-anchor="start">Log a requirement</text>
+<circle cx="292" cy="335" r="4" fill="#F2CDC4"/>
+<text x="306" y="340" font-size="15" font-weight="400" fill="#2D2A27" text-anchor="start">Try both layouts</text>
+<circle cx="292" cy="369" r="4" fill="#F2CDC4"/>
+<text x="306" y="374" font-size="15" font-weight="400" fill="#2D2A27" text-anchor="start">Edit it once</text>
+<rect x="286" y="396" width="166" height="34" rx="8" fill="#EFEDE8"/>
+<circle cx="595" cy="150" r="22" fill="#DEA193" stroke="#FFF5E3" stroke-width="5"/>
+<text x="595" y="156" font-size="16" font-weight="700" fill="#2D2A27" text-anchor="middle">3</text>
+<rect x="492" y="200" width="206" height="250" rx="16" fill="#FFFDF8" stroke="#D0C8BA" stroke-width="1.5"/>
+<text x="512" y="236" font-size="13" font-weight="600" fill="#6F675E" text-anchor="start">Day 3</text>
+<text x="512" y="264" font-size="19" font-weight="700" fill="#2D2A27" text-anchor="start">Review</text>
+<circle cx="518" cy="301" r="4" fill="#DEA193"/>
+<text x="532" y="306" font-size="15" font-weight="400" fill="#2D2A27" text-anchor="start">Filter the register</text>
+<circle cx="518" cy="335" r="4" fill="#DEA193"/>
+<text x="532" y="340" font-size="15" font-weight="400" fill="#2D2A27" text-anchor="start">Read the details</text>
+<circle cx="518" cy="369" r="4" fill="#DEA193"/>
+<text x="532" y="374" font-size="15" font-weight="400" fill="#2D2A27" text-anchor="start">Set the status</text>
+<rect x="512" y="396" width="166" height="34" rx="8" fill="#EFEDE8"/>
+<circle cx="821" cy="150" r="22" fill="#D0C8BA" stroke="#FFF5E3" stroke-width="5"/>
+<text x="821" y="156" font-size="16" font-weight="700" fill="#2D2A27" text-anchor="middle">4</text>
+<rect x="718" y="200" width="206" height="250" rx="16" fill="#FFFDF8" stroke="#D0C8BA" stroke-width="1.5"/>
+<text x="738" y="236" font-size="13" font-weight="600" fill="#6F675E" text-anchor="start">Day 4</text>
+<text x="738" y="264" font-size="19" font-weight="700" fill="#2D2A27" text-anchor="start">Triage</text>
+<circle cx="744" cy="301" r="4" fill="#D0C8BA"/>
+<text x="758" y="306" font-size="15" font-weight="400" fill="#2D2A27" text-anchor="start">Choose priority</text>
+<circle cx="744" cy="335" r="4" fill="#D0C8BA"/>
+<text x="758" y="340" font-size="15" font-weight="400" fill="#2D2A27" text-anchor="start">Add dependencies</text>
+<circle cx="744" cy="369" r="4" fill="#D0C8BA"/>
+<text x="758" y="374" font-size="15" font-weight="400" fill="#2D2A27" text-anchor="start">Add data level</text>
+<rect x="738" y="396" width="166" height="34" rx="8" fill="#EFEDE8"/>
+<circle cx="1047" cy="150" r="22" fill="#FF7023" stroke="#FFF5E3" stroke-width="5"/>
+<text x="1047" y="156" font-size="16" font-weight="700" fill="#2D2A27" text-anchor="middle">5</text>
+<rect x="944" y="200" width="206" height="250" rx="16" fill="#FFFDF8" stroke="#D0C8BA" stroke-width="1.5"/>
+<text x="964" y="236" font-size="13" font-weight="600" fill="#6F675E" text-anchor="start">Day 5</text>
+<text x="964" y="264" font-size="19" font-weight="700" fill="#2D2A27" text-anchor="start">Tidy and report</text>
+<circle cx="970" cy="301" r="4" fill="#FF7023"/>
+<text x="984" y="306" font-size="15" font-weight="400" fill="#2D2A27" text-anchor="start">Find duplicates</text>
+<circle cx="970" cy="335" r="4" fill="#FF7023"/>
+<text x="984" y="340" font-size="15" font-weight="400" fill="#2D2A27" text-anchor="start">Ask follow-ups</text>
+<circle cx="970" cy="369" r="4" fill="#FF7023"/>
+<text x="984" y="374" font-size="15" font-weight="400" fill="#2D2A27" text-anchor="start">Export a summary</text>
+<rect x="60" y="396" width="166" height="34" rx="8" fill="#EFEDE8"/>
+<rect x="286" y="396" width="166" height="34" rx="8" fill="#EFEDE8"/>
+<rect x="512" y="396" width="166" height="34" rx="8" fill="#EFEDE8"/>
+<rect x="738" y="396" width="166" height="34" rx="8" fill="#EFEDE8"/>
+<rect x="964" y="396" width="166" height="34" rx="8" fill="#EFEDE8"/>
+<text x="143" y="418" font-size="12.5" font-weight="600" fill="#2D2A27" text-anchor="middle">I can sign in</text>
+<text x="369" y="418" font-size="12.5" font-weight="600" fill="#2D2A27" text-anchor="middle">One saved requirement</text>
+<text x="595" y="418" font-size="12.5" font-weight="600" fill="#2D2A27" text-anchor="middle">I can find anything</text>
+<text x="821" y="418" font-size="12.5" font-weight="600" fill="#2D2A27" text-anchor="middle">Every row triaged</text>
+<text x="1047" y="418" font-size="12.5" font-weight="600" fill="#2D2A27" text-anchor="middle">A clean weekly list</text>
+<text x="40" y="500" font-size="16" font-weight="600" fill="#2D2A27" text-anchor="start">Goal for the week: you can capture, review and triage requirements without help, and the register stays tidy.</text>
+</svg>
