@@ -1,4 +1,4 @@
-# Requirement Hub
+# SAP S/4HANA Business Requirement Hub
 
 **A guided web app that helps business teams record, review and track their requirements for an ERP migration to SAP S/4HANA, all in one Google Sheet.**
 
