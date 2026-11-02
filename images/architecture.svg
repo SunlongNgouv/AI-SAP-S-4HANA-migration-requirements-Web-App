@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" width="1200" height="600" role="img" aria-labelledby="t d" font-family="Instrument Sans, Arial, Helvetica, sans-serif">
+<title id="t">Architecture of the Requirement Hub</title><desc id="d">People use a web page served by Google Apps Script. The script reads and writes tabs in one Google Sheet, which is the single source of truth.</desc>
+<rect width="1200" height="600" fill="#FFF5E3"/>
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#2D2A27"/></marker></defs>
+<text x="40" y="48" font-size="26" font-weight="700" fill="#2D2A27" text-anchor="start">How the Hub fits together</text>
+<text x="40" y="76" font-size="15" font-weight="400" fill="#6F675E" text-anchor="start">One Google Sheet holds the data. One Apps Script project holds the logic and the screens.</text>
+<circle cx="82" cy="158" r="28" fill="#C5E4CC"/>
+<circle cx="82" cy="150" r="9" fill="#2D2A27"/>
+<path d="M64 176a18 14 0 0 1 36 0z" fill="#2D2A27"/>
+<text x="82" y="212" font-size="15" font-weight="600" fill="#2D2A27" text-anchor="middle">Stakeholder</text>
+<text x="82" y="231" font-size="13" font-weight="400" fill="#6F675E" text-anchor="middle">Viewer or Editor</text>
+<circle cx="82" cy="283" r="28" fill="#F2CDC4"/>
+<circle cx="82" cy="275" r="9" fill="#2D2A27"/>
+<path d="M64 301a18 14 0 0 1 36 0z" fill="#2D2A27"/>
+<text x="82" y="337" font-size="15" font-weight="600" fill="#2D2A27" text-anchor="middle">Business analyst</text>
+<text x="82" y="356" font-size="13" font-weight="400" fill="#6F675E" text-anchor="middle">Editor</text>
+<circle cx="82" cy="408" r="28" fill="#DEA193"/>
+<circle cx="82" cy="400" r="9" fill="#2D2A27"/>
+<path d="M64 426a18 14 0 0 1 36 0z" fill="#2D2A27"/>
+<text x="82" y="462" font-size="15" font-weight="600" fill="#2D2A27" text-anchor="middle">Owner</text>
+<text x="82" y="481" font-size="13" font-weight="400" fill="#6F675E" text-anchor="middle">Full control</text>
+<rect x="200" y="120" width="290" height="360" rx="18" fill="#FFFDF8" stroke="#D0C8BA" stroke-width="1.5"/>
+<text x="222" y="154" font-size="19" font-weight="700" fill="#2D2A27" text-anchor="start">Web app</text>
+<text x="222" y="176" font-size="14" font-weight="400" fill="#6F675E" text-anchor="start">Index.html</text>
+<rect x="222" y="200" width="246" height="44" rx="10" fill="#C5E4CC"/>
+<text x="240" y="228" font-size="15" font-weight="600" fill="#2D2A27" text-anchor="start">Capture</text>
+<rect x="222" y="258" width="246" height="44" rx="10" fill="#F2CDC4"/>
+<text x="240" y="286" font-size="15" font-weight="600" fill="#2D2A27" text-anchor="start">Register</text>
+<rect x="222" y="316" width="246" height="44" rx="10" fill="#D0C8BA"/>
+<text x="240" y="344" font-size="15" font-weight="600" fill="#2D2A27" text-anchor="start">Access</text>
+<rect x="222" y="374" width="246" height="44" rx="10" fill="#DEA193"/>
+<text x="240" y="402" font-size="15" font-weight="600" fill="#2D2A27" text-anchor="start">Audit log</text>
+<text x="222" y="450" font-size="13" font-weight="400" fill="#6F675E" text-anchor="start">Polls the server every 7 seconds</text>
+<rect x="560" y="120" width="290" height="360" rx="18" fill="#FFFDF8" stroke="#D0C8BA" stroke-width="1.5"/>
+<text x="582" y="154" font-size="19" font-weight="700" fill="#2D2A27" text-anchor="start">Apps Script server</text>
+<text x="582" y="176" font-size="14" font-weight="400" fill="#6F675E" text-anchor="start">Code.gs</text>
+<text x="582" y="208.0" font-size="14" font-weight="400" fill="#2D2A27" text-anchor="start">Checks who you are and your role</text>
+<text x="582" y="229.0" font-size="14" font-weight="400" fill="#2D2A27" text-anchor="start">Validates every answer against</text>
+<text x="582" y="250.0" font-size="14" font-weight="400" fill="#2D2A27" text-anchor="start">the sheet&#x27;s dropdown lists</text>
+<text x="582" y="271.0" font-size="14" font-weight="400" fill="#2D2A27" text-anchor="start">Locks the sheet while it writes</text>
+<text x="582" y="292.0" font-size="14" font-weight="400" fill="#2D2A27" text-anchor="start">Writes one line to the audit log</text>
+<text x="582" y="313.0" font-size="14" font-weight="400" fill="#2D2A27" text-anchor="start">Bumps a version number so</text>
+<text x="582" y="334.0" font-size="14" font-weight="400" fill="#2D2A27" text-anchor="start">other screens refresh</text>
+<rect x="920" y="120" width="250" height="360" rx="18" fill="#FFFDF8" stroke="#D0C8BA" stroke-width="1.5"/>
+<text x="942" y="154" font-size="19" font-weight="700" fill="#2D2A27" text-anchor="start">Google Sheet</text>
+<text x="942" y="176" font-size="14" font-weight="400" fill="#6F675E" text-anchor="start">Your source of truth</text>
+<rect x="942" y="200" width="206" height="50" rx="10" fill="#FF7023"/>
+<text x="956" y="222" font-size="14" font-weight="600" fill="#2D2A27" text-anchor="start">Business Requirements</text>
+<text x="956" y="240" font-size="12" font-weight="400" fill="#2D2A27" text-anchor="start">One row each</text>
+<rect x="942" y="262" width="206" height="50" rx="10" fill="#D0C8BA"/>
+<text x="956" y="284" font-size="14" font-weight="600" fill="#2D2A27" text-anchor="start">Access</text>
+<text x="956" y="302" font-size="12" font-weight="400" fill="#2D2A27" text-anchor="start">Who has which role</text>
+<rect x="942" y="324" width="206" height="50" rx="10" fill="#DEA193"/>
+<text x="956" y="346" font-size="14" font-weight="600" fill="#2D2A27" text-anchor="start">Audit Log</text>
+<text x="956" y="364" font-size="12" font-weight="400" fill="#2D2A27" text-anchor="start">Every change</text>
+<rect x="942" y="386" width="206" height="50" rx="10" fill="#C5E4CC"/>
+<text x="956" y="408" font-size="14" font-weight="600" fill="#2D2A27" text-anchor="start">Process Guide</text>
+<text x="956" y="426" font-size="12" font-weight="400" fill="#2D2A27" text-anchor="start">Optional hints</text>
+<line x1="120" y1="158" x2="198" y2="158" stroke="#2D2A27" stroke-width="2" marker-end="url(#ah)"/>
+<line x1="120" y1="283" x2="198" y2="283" stroke="#2D2A27" stroke-width="2" marker-end="url(#ah)"/>
+<line x1="120" y1="408" x2="198" y2="408" stroke="#2D2A27" stroke-width="2" marker-end="url(#ah)"/>
+<line x1="492" y1="260" x2="558" y2="260" stroke="#2D2A27" stroke-width="2" marker-end="url(#ah)"/>
+<text x="525" y="246" font-size="13" font-weight="500" fill="#6F675E" text-anchor="middle">calls</text>
+<line x1="558" y1="330" x2="492" y2="330" stroke="#2D2A27" stroke-width="2" marker-end="url(#ah)"/>
+<text x="525" y="352" font-size="13" font-weight="500" fill="#6F675E" text-anchor="middle">returns</text>
+<line x1="852" y1="260" x2="918" y2="260" stroke="#2D2A27" stroke-width="2" marker-end="url(#ah)"/>
+<text x="885" y="232" font-size="13" font-weight="500" fill="#6F675E" text-anchor="middle">reads and</text>
+<text x="885" y="247" font-size="13" font-weight="500" fill="#6F675E" text-anchor="middle">writes</text>
+<rect x="560" y="512" width="610" height="56" rx="12" fill="#EFEDE8" stroke="#D0C8BA" stroke-width="1.5"/>
+<text x="580" y="538" font-size="15" font-weight="700" fill="#2D2A27" text-anchor="start">Edits made directly in the sheet</text>
+<text x="580" y="558" font-size="13.5" font-weight="400" fill="#2D2A27" text-anchor="start">An onSheetEdit trigger stamps LAST UPDATED and adds a line to the audit log.</text>
+<line x1="1045" y1="512" x2="1045" y2="484" stroke="#2D2A27" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#ah)"/>
+<rect x="200" y="512" width="330" height="56" rx="12" fill="#EFEDE8" stroke="#D0C8BA" stroke-width="1.5"/>
+<text x="220" y="538" font-size="15" font-weight="700" fill="#2D2A27" text-anchor="start">Hosting</text>
+<text x="220" y="558" font-size="13.5" font-weight="400" fill="#2D2A27" text-anchor="start">Deployed as a Google Apps Script web app.</text>
+</svg>
