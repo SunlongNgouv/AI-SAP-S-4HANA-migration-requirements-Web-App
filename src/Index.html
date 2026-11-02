@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Requirement Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--cloud:#FFF5E3;--stone:#D0C8BA;--ash:#2D2A27;--orange:#FF7023;--orange-d:#D55D1D;--mint:#C5E4CC;--moss:#8FA596;--rose:#F2CDC4;--quartz:#DEA193;--cinn:#BD673D;--walnut:#71584C;--card:#FFFDF8;--line:#E3D9C6;--muted:#6F675E;--ink-on-tint:#2D2A27;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--cloud:#2D2A27;--card:#37332F;--line:#4B4540;--ash:#FFF5E3;--muted:#BDB3A4;--stone:#5a534c}}
+:root[data-theme="dark"]{--cloud:#2D2A27;--card:#37332F;--line:#4B4540;--ash:#FFF5E3;--muted:#BDB3A4;--stone:#5a534c}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--cloud);color:var(--ash);font-family:'Instrument Sans',system-ui,-apple-system,Segoe UI,sans-serif;font-size:15px;line-height:1.5}
+h1,h2,h3{margin:0;font-weight:600;letter-spacing:-.01em}
+button,select,input,textarea{font:inherit;color:inherit}button{cursor:pointer}
+:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
+[hidden]{display:none!important}
+.app{max-width:1280px;margin:0 auto;padding:16px}
+.top{display:flex;align-items:center;gap:12px 16px;flex-wrap:wrap;padding:4px 4px 14px}
+.brand{display:flex;align-items:center;gap:10px}.logo{height:34px;width:auto;display:block}
+.brand b{font-size:18px;display:block;line-height:1.1}.brand span{color:var(--muted);font-size:13px}
+.tabs{display:flex;gap:4px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px;overflow-x:auto;max-width:100%}
+.tab{border:0;background:transparent;padding:8px 16px;border-radius:999px;white-space:nowrap;font-weight:500;color:var(--muted)}
+.tab[aria-selected="true"]{background:var(--ash);color:var(--cloud)}
+.tright{margin-left:auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.src{display:inline-flex;align-items:center;gap:8px;border:1.5px solid var(--orange);color:var(--orange-d);border-radius:999px;padding:8px 16px;font-weight:600;text-decoration:none;background:transparent}
+.src:hover{background:var(--orange);color:#fff}
+@media (prefers-color-scheme:dark){.src{color:var(--orange)}}
+.who{font-size:12px;color:var(--muted);text-align:right;line-height:1.3}.who b{display:block;color:var(--ash);font-size:13px}
+.sync{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
+.sync::before{content:"";width:9px;height:9px;border-radius:50%;background:#4aa564;box-shadow:0 0 0 4px rgba(74,165,100,.2)}
+.sync.stale::before{background:var(--quartz);box-shadow:0 0 0 4px rgba(222,161,147,.3)}
+.panel{display:none}.panel.on{display:block}
+.card,.box{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:18px;overflow:hidden}
+.card{border-radius:26px 26px 26px 6px;padding:28px}
+.box h3{font-size:15px;margin-bottom:12px}
+.gate{max-width:560px;margin:48px auto}
+.gate h2{font-size:30px;line-height:1.15;margin-bottom:8px}.gate p{color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.chip{border:1.5px solid var(--stone);background:transparent;border-radius:14px 14px 14px 4px;padding:10px 15px;font-weight:500;transition:.15s;text-align:left}
+.chip:hover{border-color:var(--orange)}.chip.sel{background:var(--orange);border-color:var(--orange);color:#fff}.chip.sel::before{content:"✓ "}
+.chip.big{padding:16px 18px;min-width:220px}.chip.big small{display:block;font-weight:400;opacity:.8;font-size:12px}.chip.big.sel::before{content:""}
+.t{width:100%;padding:12px 14px;border-radius:14px;border:1.5px solid var(--stone);background:var(--card);color:var(--ash)}
+textarea.t{min-height:110px;resize:vertical}select.t{width:auto}
+label.l{display:block;font-weight:600;margin:14px 0 6px}
+.btn{border:0;border-radius:999px;padding:11px 22px;font-weight:600;background:var(--ash);color:var(--cloud)}
+.btn.p{background:var(--orange);color:#fff}.btn.p:hover{background:var(--orange-d)}.btn[disabled]{opacity:.45;cursor:not-allowed}
+.btn.g{background:transparent;color:var(--ash);border:1.5px solid var(--stone)}.btn.sm{padding:6px 12px;font-size:13px}.btn.danger{background:var(--clay,#95685D);color:#fff}
+.hint{font-size:13px;color:var(--muted)}
+.help{background:var(--cloud);border-radius:14px;padding:12px 14px;font-size:13px;border-left:4px solid var(--moss);margin-top:12px}
+/* chat */
+.chat{max-width:780px;margin:0 auto;background:var(--card);border:1px solid var(--line);border-radius:30px 30px 30px 8px;display:flex;flex-direction:column;height:min(720px,calc(100vh - 200px));min-height:520px;overflow:hidden}
+.chead{padding:14px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}
+.chead .logo{height:26px}.chead .bar{margin-left:auto;width:140px;height:6px;border-radius:6px;background:var(--line);overflow:hidden}.chead .bar i{display:block;height:100%;background:var(--orange);transition:width .3s}
+.msgs{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:12px}
+.m{max-width:84%;padding:12px 16px;border-radius:20px 20px 20px 5px;background:var(--cloud)}
+.m small{display:block;color:var(--muted);font-size:12px;margin-top:2px}
+.me{align-self:flex-end;background:var(--orange);color:#fff;border:0;border-radius:20px 20px 5px 20px;text-align:left}.me:hover{background:var(--orange-d)}
+.me em{display:block;font-style:normal;font-size:11px;opacity:.85}
+.ctl{border-top:1px solid var(--line);padding:14px 16px}.ctl .chips{margin:0 0 10px;max-height:160px;overflow:auto}
+.row{display:flex;gap:8px;align-items:flex-end}.row .t{flex:1}
+.msg-in{animation:in .25s ease-out}@keyframes in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){.msg-in{animation:none}}
+.sumrow{display:grid;grid-template-columns:130px 1fr auto;gap:10px;padding:8px 0;border-bottom:1px solid var(--line);font-size:14px}.sumrow span:first-child{color:var(--muted)}.sumrow button{border:0;background:none;text-decoration:underline;color:var(--cinn)}
+.done{text-align:center;padding:40px 16px}.done h2{font-size:32px;margin:10px 0}
+/* register */
+.bar2{display:flex;gap:8px;flex-wrap:wrap;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:12px;margin-bottom:16px}
+.bar2 .t{padding:8px 12px;border-radius:12px}.bar2 .grow{flex:1;min-width:190px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}@media(max-width:800px){.kpis{grid-template-columns:repeat(2,1fr)}}
+.kpi{border-radius:20px 20px 20px 5px;padding:16px;color:#2D2A27}.kpi b{font-size:34px;line-height:1;display:block}.kpi span{font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px;margin-bottom:16px}.g4{grid-column:span 4}.g12{grid-column:span 12}.g5{grid-column:span 5}.g7{grid-column:span 7}
+@media(max-width:900px){.g4,.g5,.g7{grid-column:span 12}}
+.leg{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:12px;margin-top:8px;color:var(--muted)}.leg i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px}
+.hb{display:grid;grid-template-columns:120px 1fr 30px;gap:8px;align-items:center;font-size:13px}.hb .b{height:12px;border-radius:6px;background:var(--cloud);overflow:hidden}.hb .b i{display:block;height:100%;border-radius:6px}
+.tw{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:13px;min-width:900px}
+th{text-align:left;font-weight:600;color:var(--muted);padding:8px 10px;border-bottom:2px solid var(--line);white-space:nowrap}
+td{padding:10px;border-bottom:1px solid var(--line);vertical-align:top}tr:hover td{background:rgba(255,112,35,.06)}tr.del td{opacity:.5;text-decoration:line-through}
+.pill{border-radius:999px;padding:2px 10px;font-size:12px;font-weight:600;white-space:nowrap;display:inline-block;color:#2D2A27}
+.ra{display:flex;gap:6px}.ra button{border:1px solid var(--line);background:transparent;border-radius:8px;padding:3px 8px;font-size:12px}
+.pager{display:flex;justify-content:space-between;align-items:center;margin-top:12px;font-size:13px;color:var(--muted);gap:8px;flex-wrap:wrap}
+.empty{padding:30px;text-align:center;color:var(--muted)}
+/* access */
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:16px}@media(max-width:800px){.three{grid-template-columns:1fr}}
+.role{border-radius:22px 22px 22px 5px;padding:18px;color:#2D2A27}.role h3{margin-bottom:6px}.role ul{margin:8px 0 0;padding-left:18px;font-size:13px}
+.tl{list-style:none;margin:0;padding:0}.tl li{display:grid;grid-template-columns:170px 28px 1fr;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);font-size:13px}
+.tl .ic{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;font-weight:700;font-size:12px;color:#2D2A27}
+@media(max-width:700px){.tl li{grid-template-columns:1fr}}
+.diff{font-family:ui-monospace,Menlo,monospace;font-size:12px;background:var(--cloud);border-radius:8px;padding:6px 8px;margin-top:6px;word-break:break-word}.diff s{color:#95685D}.diff u{text-decoration:none;color:#2f7a4a;font-weight:600}
+/* modal + toast */
+.modal{position:fixed;inset:0;background:rgba(45,42,39,.55);display:grid;place-items:center;padding:16px;z-index:20}
+.sheet{background:var(--card);border-radius:26px 26px 26px 6px;max-width:760px;width:100%;max-height:calc(100vh - 32px);display:flex;flex-direction:column;overflow:hidden}
+.sheet header{padding:18px 22px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:10px}
+.sheet .body{padding:6px 22px 14px;overflow:auto}.sheet footer{padding:14px 22px;border-top:1px solid var(--line);display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+.checks{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:4px 12px}.checks label{display:flex;gap:8px;align-items:center;font-size:13px}
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ash);color:var(--cloud);padding:11px 20px;border-radius:999px;font-weight:500;z-index:30;max-width:90vw}
+#toast.bad{background:#95685D;color:#fff}
+.spin{display:inline-block;width:18px;height:18px;border:3px solid var(--stone);border-top-color:var(--orange);border-radius:50%;animation:sp .8s linear infinite;vertical-align:middle;margin-right:8px}@keyframes sp{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.spin{animation-duration:2.4s}}
+
+.capsw{display:flex;gap:4px;width:max-content;max-width:100%;margin:0 auto 14px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px}
+.capsw button{border:0;background:transparent;padding:7px 16px;border-radius:999px;font-weight:500;color:var(--muted);white-space:nowrap}
+.capsw button[aria-pressed="true"]{background:var(--ash);color:var(--cloud)}
+.split{display:grid;grid-template-columns:minmax(260px,38%) 1fr;min-height:600px;border-radius:30px 30px 30px 8px;overflow:hidden;border:1px solid var(--line);background:var(--card);max-width:1100px;margin:0 auto}
+@media(max-width:820px){.split{grid-template-columns:1fr}}
+.sl{padding:30px 40px 30px 30px;color:#2D2A27;display:flex;flex-direction:column;transition:background .35s;clip-path:polygon(0 0,100% 0,96% 100%,0 100%)}
+@media(max-width:820px){.sl{clip-path:none;padding:22px}}
+.sl .cnt{font-weight:600;font-size:14px}.sl h3{font-size:30px;line-height:1.1;margin:22px 0 10px;letter-spacing:-.02em}.sl p{margin:0 0 12px;max-width:34ch}
+.sl .ex{background:rgba(255,255,255,.55);border-radius:14px;padding:10px 12px;font-size:13px;margin-top:auto}
+.dots{display:flex;gap:5px;margin-top:18px}.dots i{height:6px;flex:1;border-radius:6px;background:rgba(45,42,39,.2)}.dots i.f{background:#2D2A27}
+.sr{padding:44px 44px 28px;display:flex;flex-direction:column;min-width:0}
+.sr h2{font-size:32px;line-height:1.12;font-weight:500;letter-spacing:-.02em;max-width:22ch}
+.sr .foot{margin-top:auto;display:flex;justify-content:space-between;align-items:center;gap:10px;padding-top:24px}
+@media(max-width:820px){.sr{padding:24px 20px}.sr h2{font-size:26px}}
+@media(prefers-reduced-motion:reduce){.sl{transition:none}}
+
+.chips2{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:-4px 0 14px;min-height:32px}
+.fchip{border:0;background:var(--rose);color:#2D2A27;border-radius:999px;padding:5px 12px;font-weight:600;font-size:13px}.fchip:hover{background:var(--quartz)}
+.seg{stroke-width:30;cursor:pointer;transition:opacity .15s,stroke-width .15s}.seg:hover{stroke-width:35}.seg.on{stroke-width:38}.seg.dim{opacity:.3}
+.pt{cursor:pointer}.pt:hover .dot{r:6}.pt:focus-visible{outline:none}.pt:focus-visible .dot{stroke:#2D2A27}
+.lgl{max-height:150px;overflow:auto;display:flex;flex-direction:column;gap:2px;margin-top:10px}
+.lg{display:flex;align-items:center;gap:8px;background:none;border:0;border-radius:8px;padding:3px 6px;font-size:12px;text-align:left;width:100%}
+.lg i{width:10px;height:10px;border-radius:3px;flex:none}.lg span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.lg b{margin-left:auto}
+.lg:hover{background:var(--cloud)}.lg.on{background:var(--rose);color:#2D2A27}.lg.dim{opacity:.45}
+.bt{margin:8px 0 4px;font-size:13px;color:var(--muted);font-weight:600}
+.hb{width:100%;background:none;border:0;padding:3px 6px;border-radius:8px;text-align:left;margin:2px 0}.hb:hover{background:var(--cloud)}.hb.on{background:var(--rose);color:#2D2A27}.hb.dim{opacity:.45}
+.hb .hl{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.hb .b{display:block}
+tr.click{cursor:pointer}tr.click:focus-visible{outline-offset:-3px}
+.ra .det{border-color:var(--orange);color:var(--orange-d);font-weight:600}
+@media (prefers-color-scheme:dark){.ra .det{color:var(--orange)}}
+.tag{display:inline-block;background:var(--cloud);border:1px solid var(--line);border-radius:999px;padding:2px 10px;font-size:12px;margin:0 6px 6px 0}
+.sheet.wide{max-width:900px}
+.dname{font-size:26px;line-height:1.2;margin:10px 0 14px}
+.dmeta{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:8px}
+.dmeta h4,.dsec h4,.dgrid h4{margin:0 0 4px;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.dsec{background:var(--cloud);border-radius:16px;padding:12px 16px;margin:10px 0}
+.ptxt a{color:var(--cinn);overflow-wrap:anywhere}
+.ptxt{margin:0;white-space:pre-wrap;overflow-wrap:anywhere}
+.dgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px 20px;margin:14px 0}
+.dfoot{margin-top:14px}
+@media(max-width:700px){.dmeta,.dgrid{grid-template-columns:1fr}.dname{font-size:22px}}
+@media(max-width:1100px){.g4{grid-column:span 6}.grid>.g4:nth-of-type(3){grid-column:span 12}}
+@media(max-width:900px){.g4,.g5,.g7,.grid>.g4:nth-of-type(3){grid-column:span 12}}
+.addgrid{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:12px;align-items:start}
+@media(max-width:800px){.addgrid{grid-template-columns:1fr}}
+
+.gsearch{margin:14px 0 4px}
+.gh{font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin:14px 0 0;font-weight:600}
+.chipw{display:inline-flex}
+.chipw .chip{border-radius:14px 0 0 4px}
+.chipw .info{border:1.5px solid var(--stone);border-left:0;background:transparent;border-radius:0 14px 4px 0;width:32px;font-weight:700;font-style:italic;font-family:Georgia,serif;color:var(--muted)}
+.chipw .info:hover{background:var(--cloud);color:var(--ash)}
+.chipw .chip.sel + .info{background:var(--orange);border-color:var(--orange);color:#fff}
+.chipw.hit .chip,.chipw.hit .info{border-color:var(--orange)}
+.chipw.dim{opacity:.35}
+.ctl .gwrap{max-height:230px;overflow:auto}
+.ctl .gwrap .chips{max-height:none;overflow:visible}
+.gcard{margin-top:16px;background:rgba(255,255,255,.6);border-radius:16px;padding:12px 14px;max-height:380px;overflow:auto;font-size:13px;color:#2D2A27}
+.m.ginfo{max-width:92%;max-height:230px;overflow:auto;font-size:13px}
+.gc .gt{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:6px}
+.gc .gt b{font-size:15px;margin-right:4px}
+.gc .gs{margin:6px 0;font-size:12px;letter-spacing:.04em;text-transform:uppercase;opacity:.75}
+.gc ul{list-style:none;margin:0 0 10px;padding:0}
+.gc li{margin:0 0 8px}
+.gc li b{display:block;font-size:13px}
+.gc li span{display:block;font-size:12px;opacity:.85}
+mark{background:#FFD2B8;color:inherit;border-radius:3px;padding:0 2px}
+
+.msgs>*{flex:none}
+.ctl .gwrap{max-height:clamp(120px,24vh,200px)}
+@media(max-width:600px){.chat{height:calc(100vh - 140px);min-height:480px}}
+
+.g3{grid-column:span 6}
+@media(min-width:1500px){.g3{grid-column:span 3}}
+@media(max-width:700px){.g3{grid-column:span 12}}
+.pw{position:relative}
+.pop{position:absolute;top:calc(100% + 6px);left:0;z-index:18;width:min(340px,86vw);background:var(--card);border:1px solid var(--line);border-radius:16px;padding:10px;box-shadow:0 12px 30px rgba(45,42,39,.22)}
+.plist{max-height:260px;overflow:auto;margin:8px 0}
+.pi{display:flex;gap:10px;align-items:center;padding:6px 8px;border-radius:8px;cursor:pointer}
+.pi:hover{background:var(--cloud)}.pi .pn{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.pi .pc{color:var(--muted);font-size:12px}
+.pfoot{display:flex;gap:6px;justify-content:space-between;flex-wrap:wrap}
+.pb{cursor:pointer;transition:opacity .15s}.pb:hover rect{opacity:.85}.pb.dim{opacity:.35}.pb.on rect{stroke:#2D2A27;stroke-width:2.5}.pb:focus-visible{outline:none}.pb:focus-visible rect{stroke:#2D2A27;stroke-width:2.5}
+
+.stack{display:flex;flex-direction:column;gap:16px;min-width:0}
+.stack>.box{flex:1;min-width:0}
+@media(max-width:1100px){.stack{flex-direction:row}}
+@media(max-width:700px){.stack{flex-direction:column}}
+#f-who{padding:8px 12px;border-radius:12px;font-weight:400;background:var(--card);border:1.5px solid var(--stone);color:var(--ash);line-height:1.5;white-space:nowrap}
+#f-who:hover{border-color:var(--orange)}
+
+.bar2 .t,.bar2 #f-who{height:40px}
+#f-who{padding:0 12px;display:inline-flex;align-items:center}
+
+.stack>.box{flex:none}
+@media(max-width:1100px){.stack>.box{flex:1 1 0}}
+@media(max-width:700px){.stack>.box{flex:none}}
+
+.bar2{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;align-items:center}
+.bar2 .t,.bar2 #f-who{width:100%;min-width:0;height:40px}
+.bar2 .grow{min-width:0}
+@media(min-width:700px){.bar2 #f-q{grid-column:span 2}}
+.bar2 .dl{display:flex;align-items:center;gap:8px;min-width:0}
+.bar2 .dl .t{flex:1}
+.bar2 .acts{grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.pw{min-width:0}
+#f-who{display:block;text-align:left;line-height:37px;padding:0 12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+.bar2 .dl>span{width:36px;flex:none}
+
+.bar2 .msb{display:block;width:100%;min-width:0;height:40px;padding:0 12px;border-radius:12px;font-weight:400;background:var(--card);border:1.5px solid var(--stone);color:var(--ash);text-align:left;line-height:37px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar2 .msb:hover{border-color:var(--orange)}
+</style></head>
+<body>
+<div class="app">
+ <header class="top">
+  <div class="brand"><img class="logo" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 108'%3E%3Crect width='120' height='108' rx='22' fill='%23FF7023'/%3E%3Cg stroke='%23fff' stroke-width='5' stroke-linecap='round'%3E%3Cpath d='M60 54L28 30M60 54L92 30M60 54L28 78M60 54L92 78'/%3E%3C/g%3E%3Cg fill='%23fff'%3E%3Ccircle cx='60' cy='54' r='13'/%3E%3Ccircle cx='28' cy='30' r='8'/%3E%3Ccircle cx='92' cy='30' r='8'/%3E%3Ccircle cx='28' cy='78' r='8'/%3E%3Ccircle cx='92' cy='78' r='8'/%3E%3C/g%3E%3C/svg%3E" alt="Hub logo"><div><b>Requirement Hub</b><span>ERP migration to SAP S/4HANA</span></div></div>
+  <nav class="tabs" id="tabs" role="tablist" aria-label="Sections" hidden>
+   <button class="tab" role="tab" data-p="cap" data-min="editor">Capture</button>
+   <button class="tab" role="tab" data-p="reg" data-min="viewer">Register</button>
+   <button class="tab" role="tab" data-p="acc" data-min="viewer">Access</button>
+   <button class="tab" role="tab" data-p="log" data-min="owner">Audit log</button>
+  </nav>
+  <div class="tright">
+   <a class="src" id="srcbtn" href="#" target="_blank" rel="noopener">Open source file</a>
+   <div class="sync" id="sync" hidden>Live</div>
+   <div class="who" id="who" hidden></div>
+  </div>
+ </header>
+ <div id="gate" class="gate"><p><span class="spin"></span>Loading…</p></div>
+ <main id="main" hidden>
+  <div id="warn" class="help" hidden style="background:var(--rose);border-left-color:var(--orange);color:#2D2A27;margin:0 0 14px"></div>
+  <section id="p-cap" class="panel">
+  <div class="capsw" id="capsw" role="group" aria-label="Capture style"><button data-m="split" aria-pressed="false">Guided split-screen</button><button data-m="conv" aria-pressed="true">Conversation</button></div>
+  <div id="cv-conv"><div class="chat"><div class="chead"><img class="logo" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 108'%3E%3Crect width='120' height='108' rx='22' fill='%23FF7023'/%3E%3Cg stroke='%23fff' stroke-width='5' stroke-linecap='round'%3E%3Cpath d='M60 54L28 30M60 54L92 30M60 54L28 78M60 54L92 78'/%3E%3C/g%3E%3Cg fill='%23fff'%3E%3Ccircle cx='60' cy='54' r='13'/%3E%3Ccircle cx='28' cy='30' r='8'/%3E%3Ccircle cx='92' cy='30' r='8'/%3E%3Ccircle cx='28' cy='78' r='8'/%3E%3Ccircle cx='92' cy='78' r='8'/%3E%3C/g%3E%3C/svg%3E" alt=""><b>Requirement guide</b><div class="bar"><i id="cbar" style="width:0"></i></div></div><div class="msgs" id="msgs" aria-live="polite"></div><div class="ctl" id="ctl"></div></div></div>
+  <div id="cv-split" hidden></div></section>
+  <section id="p-reg" class="panel">
+   <div class="bar2">
+    <input class="t grow" id="f-q" type="search" placeholder="Search name, description, as-is, REQ #, person…" aria-label="Search">
+    <div class="pw" id="area-wrap"><button class="msb" id="f-area" aria-haspopup="true" aria-expanded="false" aria-label="Filter by process area">All process areas ▾</button><div class="pop" id="area-pop" hidden role="dialog" aria-label="Filter by process area"><input class="t" id="area-q" type="search" placeholder="Search process areas" aria-label="Search process areas" autocomplete="off"><div class="plist" id="area-list"></div><div class="pfoot"><button class="btn g sm" id="area-all">Select shown</button><button class="btn g sm" id="area-none">Clear</button><button class="btn sm" id="area-done">Done</button></div></div></div>
+    <div class="pw" id="proc-wrap"><button class="msb" id="f-proc" aria-haspopup="true" aria-expanded="false" aria-label="Filter by process">All processes ▾</button><div class="pop" id="proc-pop" hidden role="dialog" aria-label="Filter by process"><input class="t" id="proc-q" type="search" placeholder="Search processes" aria-label="Search processes" autocomplete="off"><div class="plist" id="proc-list"></div><div class="pfoot"><button class="btn g sm" id="proc-all">Select shown</button><button class="btn g sm" id="proc-none">Clear</button><button class="btn sm" id="proc-done">Done</button></div></div></div>
+    <select class="t" id="f-order" aria-label="Order type"></select>
+    <select class="t" id="f-brd" aria-label="Type"></select>
+    <select class="t" id="f-status" aria-label="Status"></select>
+    <select class="t" id="f-priority" aria-label="Priority"></select>
+    <div class="pw" id="who-wrap"><button class="msb" id="f-who" aria-haspopup="true" aria-expanded="false">Logged by: Everyone ▾</button><div class="pop" id="who-pop" hidden role="dialog" aria-label="Filter by person"><input class="t" id="who-q" type="search" placeholder="Search people" aria-label="Search people" autocomplete="off"><div class="plist" id="who-list"></div><div class="pfoot"><button class="btn g sm" id="who-all">Select shown</button><button class="btn g sm" id="who-none">Clear</button><button class="btn sm" id="who-done">Done</button></div></div></div>
+    <label class="hint dl"><span>From</span><input class="t" id="f-from" type="date"></label>
+    <label class="hint dl"><span>To</span><input class="t" id="f-to" type="date"></label>
+    <div class="acts"><label class="hint" id="f-delw" hidden><input type="checkbox" id="f-del"> Show deleted</label>
+    <button class="btn g" id="f-clear">Clear filters</button>
+    <button class="btn" id="f-refresh">Refresh</button>
+    <button class="btn g" id="f-csv">Export CSV</button></div>
+   </div>
+   <div class="chips2" id="chips"></div>
+   <div class="kpis" id="kpis"></div>
+   <div class="grid">
+    <div class="box g4"><h3>By process</h3><div id="c-donut"></div></div>
+    <div class="box g4"><h3>By type and order type</h3><div id="c-bars"></div></div>
+    <div class="g4 stack"><div class="box"><h3>By priority</h3><div id="c-pri"></div></div><div class="box"><h3>Logged per week</h3><div id="c-line"></div></div></div>
+    <div class="box g12"><h3>All requirements</h3><div class="tw"><table><thead><tr><th>REQ #</th><th>Process area</th><th>Process</th><th>Requirement</th><th>Order type</th><th>Type</th><th>Status</th><th>Logged by</th><th></th></tr></thead><tbody id="tbody"></tbody></table></div><div class="pager"><span id="pinfo"></span><span><button class="btn g sm" id="pprev">Previous</button> <button class="btn g sm" id="pnext">Next</button></span></div></div>
+   </div>
+  </section>
+  <section id="p-acc" class="panel"></section>
+  <section id="p-log" class="panel"></section>
+ </main>
+</div>
+<div class="modal" id="modal" hidden><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="mt"><header><h3 id="mt"></h3><button class="btn g sm" id="mx">Close</button></header><div class="body" id="mb"></div><footer id="mf"></footer></div></div>
+<div class="modal" id="dlg" hidden style="z-index:40"><div class="sheet" role="alertdialog" aria-modal="true" aria-labelledby="dlg-t" aria-describedby="dlg-m" style="max-width:460px"><div class="body" style="padding:24px 24px 8px"><h3 id="dlg-t" style="font-size:20px;margin:0 0 8px"></h3><p id="dlg-m" style="margin:0;color:var(--muted)"></p></div><footer><button class="btn g" id="dlg-no">Cancel</button><button class="btn p" id="dlg-ok">OK</button></footer></div></div>
+<div id="toast" role="status" hidden></div>
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const esc=x=>String(x==null?'':x).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const RANK={viewer:1,editor:2,owner:3};
+let MISSING=[],ME,CFG,SHEET,ROWS=[],VER=0,lastSync=0,pollT,clockT,tabNow='',page=0,PAGE=15,started=false;
+const can=r=>ME&&ME.role&&RANK[ME.role]>=RANK[r];
+function api(fn,...a){return new Promise((res,rej)=>google.script.run.withSuccessHandler(res).withFailureHandler(e=>rej(new Error(nice((e&&e.message)||String(e))))) [fn](...a))}
+function nice(m){m=String(m||'').replace(/^(Uncaught )?(Error|Exception|TypeError|ScriptError):\s?/i,'').trim();
+ if(/obtain lock|another process/i.test(m))return 'Someone else is saving at the same moment. Please try again in a few seconds.';
+ if(/not authorized|authorization is required|authorisation/i.test(m))return 'Google needs you to sign in again. Please reload the page.';
+ if(/server error|invoked too many times|quota|try again in a few/i.test(m))return 'Google is busy right now. Please wait a moment and try again.';
+ if(/failed to fetch|network|timed out|timeout/i.test(m))return 'The connection dropped. Please check your internet and try again.';
+ return m||'Something went wrong. Please try again.'}
+function askConfirm(o){return new Promise(res=>{const d=$('#dlg'),ok=$('#dlg-ok'),no=$('#dlg-no');
+ $('#dlg-t').textContent=o.title;$('#dlg-m').textContent=o.message;ok.textContent=o.ok||'OK';no.textContent=o.cancel||'Cancel';ok.className='btn '+(o.danger?'danger':'p');
+ d.hidden=false;(o.danger?no:ok).focus();
+ const done=v=>{d.hidden=true;ok.onclick=null;no.onclick=null;d.onclick=null;document.removeEventListener('keydown',key,true);res(v)};
+ const key=e=>{if(e.key==='Escape'){e.stopPropagation();done(false)}if(e.key==='Tab'){e.preventDefault();const f=[no,ok],i=f.indexOf(document.activeElement);f[(i+(e.shiftKey?-1:1)+2)%2].focus()}};
+ document.addEventListener('keydown',key,true);ok.onclick=()=>done(true);no.onclick=()=>done(false);d.onclick=e=>{if(e.target===d)done(false)}})}
+function toast(m,bad){const t=$('#toast');t.textContent=m;t.className=bad?'bad':'';t.hidden=false;clearTimeout(toast.h);toast.h=setTimeout(()=>t.hidden=true,bad?6000:3200)}
+const fmt=iso=>{if(!iso)return '';const d=new Date(iso);return isNaN(d)?'':d.toLocaleString([], {month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'})};
+const day=iso=>{if(!iso)return '';const d=new Date(iso);if(isNaN(d))return '';return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+const split=v=>String(v||'').split(',').map(x=>x.trim()).filter(Boolean);
+
+function gate(kind,msg){
+ $('#main').hidden=true;$('#tabs').hidden=true;$('#who').hidden=true;$('#sync').hidden=true;$('#gate').hidden=false;stopTimers();
+ const g=$('#gate');
+ if(kind==='loading'){g.innerHTML='<p><span class="spin"></span>Loading…</p>';return}
+ if(kind==='error'){g.innerHTML=`<h2>Something went wrong</h2><p>${esc(msg)}</p><button class="btn p" id="retry">Try again</button>`;$('#retry').onclick=init;return}
+ if(kind==='noid'){g.innerHTML='<h2>We could not identify you</h2><p>Open this page while signed in to your company Google account. If the problem continues, ask the app owner to check the deployment access setting.</p>';return}
+ if(kind==='pending'){g.innerHTML=`<h2>Your request is waiting for approval</h2><p>An Owner has been emailed. You will get an email when it is decided. Signed in as ${esc(ME.email)}.</p>`;return}
+ const declined=ME.status==='Declined'||ME.status==='Revoked';
+ g.innerHTML=`<h2>${declined?'Your access was removed or declined':'Request access'}</h2><p>You are signed in as <b>${esc(ME.email)}</b>. Tell the Owner who you are and what you need. ${declined?'You can send a new request.':''}</p>
+ <label class="l" for="r-name">Your name</label><input class="t" id="r-name" autocomplete="name">
+ <label class="l">Role you need</label><div class="chips" id="r-roles">${['Viewer','Editor','Owner'].map((r,i)=>`<button class="chip ${i==1?'sel':''}" data-r="${r}">${r}</button>`).join('')}</div>
+ <label class="l" for="r-why">Why do you need it?</label><textarea class="t" id="r-why" placeholder="For example: I own the planning requirements"></textarea>
+ <div class="help">Viewer: see the register and charts. Editor: also add, edit and delete requirements. Owner: also manage access and see the audit log.</div>
+ <p><button class="btn p" id="r-send">Send to Owners</button></p>`;
+ let role='Editor';$$('#r-roles .chip').forEach(c=>c.onclick=()=>{role=c.dataset.r;$$('#r-roles .chip').forEach(x=>x.classList.toggle('sel',x===c))});
+ $('#r-send').onclick=async()=>{const b=$('#r-send');b.disabled=true;try{await api('requestAccess',$('#r-name').value,role,$('#r-why').value);ME.status='Pending';gate('pending')}catch(e){toast(e.message,true);b.disabled=false}};
+}
+async function init(){
+ gate('loading');
+ try{const b=await api('bootstrap');ME=b.me;CFG=b.cfg;SHEET=b.sheetUrl;VER=b.ver;MISSING=b.missing||[];setGuide(b.guide);$('#srcbtn').href=SHEET;
+  if(!ME.email)return gate('noid');
+  if(!ME.role)return gate(ME.status==='Pending'?'pending':'request');
+  await enter();
+ }catch(e){gate('error',e.message)}
+}
+async function enter(){
+ $('#gate').hidden=true;$('#main').hidden=false;$('#tabs').hidden=false;
+ $('#who').hidden=false;$('#who').innerHTML=`<b>${esc(ME.name||ME.email)}</b>${esc(ME.email)} · ${ME.role[0].toUpperCase()+ME.role.slice(1)}`;
+ $('#sync').hidden=false;
+ const w=$('#warn');if(MISSING.length&&can('owner')){w.hidden=false;w.innerHTML='<b>Some sheet columns were not found:</b> '+esc(MISSING.join(', '))+'. The app cannot read or save those fields until the header names are restored.'}else w.hidden=true;
+ $$('.tab').forEach(t=>t.hidden=!can(t.dataset.min));
+ buildFilters();resetChat();
+ await loadData();
+ goTab(can('editor')?'cap':'reg');
+ startTimers();
+}
+function goTab(p){tabNow=p;$$('.tab').forEach(t=>t.setAttribute('aria-selected',t.dataset.p===p));$$('.panel').forEach(x=>x.classList.toggle('on',x.id==='p-'+p));
+ if(p==='acc')renderAccess();if(p==='log')renderLog();if(p==='reg')renderReg();if(p==='cap')drawChat()}
+$$('.tab').forEach(t=>t.onclick=()=>goTab(t.dataset.p));
+
+async function loadData(){const d=await api('getData');ROWS=d.rows;VER=d.ver;lastSync=Date.now();if(tabNow==='reg')renderReg();tickSync()}
+function tickSync(){const s=Math.round((Date.now()-lastSync)/1000),el=$('#sync');el.textContent=`Live · synced ${s<5?'just now':s+'s ago'}`;el.classList.toggle('stale',s>30)}
+function startTimers(){stopTimers();clockT=setInterval(tickSync,1000);pollT=setInterval(async()=>{
+  if(document.hidden||$('#modal').hidden===false)return;
+  try{const v=await api('poll');lastSync=Date.now();if(v!==VER){await loadData();if(tabNow==='acc'&&!typingInAccess())renderAccess();if(tabNow==='log')renderLog()}}catch(e){}},CFG.pollMs||7000)}
+function stopTimers(){clearInterval(pollT);clearInterval(clockT)}
+
+const L=()=>CFG.lists;
+const STEPS=()=>[
+ {k:'who',label:'Your name',t:'text',q:'First, what is your name?',why:`We record who logged each requirement, along with your Google email (${ME.email}).`,ph:'Your full name',ex:'Jordan Lee'},
+ {k:'name',label:'Name',t:'text',q:'What would you call this requirement?',why:'A short title that sums up the problem or need, so others recognize it in a list.',ph:'e.g., Expedite request approvals',ex:'Manual expedite request approvals'},
+ {k:'area',label:'Process area',t:'multi',q:'Which parts of the business does this touch?',why:'This tells the project team which workstreams need to hear about it.',opts:L().areas},
+ {k:'proc',label:'Process',t:'single',q:'Which process step is it part of?',why:'Pick the step where the problem shows up, not where it starts.',opts:L().procs},
+ {k:'brd',label:'Type',t:'big',q:'What best describes it?',why:'We use this to sort what gets looked at first.',opts:[['Pain Point','Something hurts or breaks today'],['System Efficiency','The system should do this for us'],['Operations Enhancement','A better way to run the process']]},
+ {k:'order',label:'Order type',t:'multi',q:'Which kinds of orders are affected?',why:'Different order types often follow different rules.',opts:L().orders},
+ {k:'desc',label:'The issue',t:'area',q:'What is the issue about?',why:'Explain the problem or need in your own words, so someone outside your team can follow it.',ph:'Describe the issue…',ex:'Expedite requests are approved by email, so nobody can see where a request stands.'},
+ {k:'asis',label:'Current practice',t:'area',q:'What is the current practice?',why:'Walk us through how it is handled today in the system, including manual steps, spreadsheets and emails.',ph:'Today we…',ex:'1. Sales submits a form. 2. Ops approves by email. 3. Fulfillment updates a tracker.'},
+ {k:'future',label:'Change request',t:'area',q:'What should the system do?',why:'Tell us what you want the system to do. The implementation team will propose how to set it up in SAP S/4HANA.',ph:'The system must…',ex:'The system must route the request to approvers and notify the requester.',opt:true},
+ {k:'priority',label:'Priority',t:'big',q:'How urgent is this requirement?',why:'Pick the level that best matches how much it affects your work today. The project team uses this to decide what to look at first.',opts:(L().priority&&L().priority.length?L().priority:['High','Medium','Low']).map(v=>[v,PRI_DESC[String(v).toLowerCase()]||''])},
+ {k:'usecase',label:'Supporting documents',t:'area',url:true,opt:true,q:'Do you have documentation or a written process flow for this?',why:'Paste the link(s) to the document, wiki page or process flow. It helps the implementation team understand the requirement.',ph:'Paste the link here…',ex:'Link to a Google Doc, slide deck or wiki page'},
+ {k:'lucid',label:'Lucid chart',t:'area',url:true,opt:true,q:'Is there a Lucid chart of the process?',why:'Paste the link to your Lucid chart so the implementation team can follow the flow.',ph:'Paste the Lucid chart link here…',ex:'Link to your Lucid chart document'},
+ {k:'demo',label:'Demo ready',t:'big',q:'Are you willing to demonstrate this to the implementation team?',why:'A short walk-through helps the implementation team understand how the process works today.',opts:[['Yes','I can walk the team through it'],['No','I am not able to demo it'],['Maybe','Possibly, depending on timing']]},
+ {k:'notes',label:'Personal note',t:'area',opt:true,q:'Would you like to add a personal note?',why:'Add anything you want to remember about this requirement. You can find it again in the Register whenever you need it. Everyone who can open this requirement will see it.',ph:'Type your note here…',ex:'Check with Finance before the the implementation team workshop'},
+ {k:'rev',label:'Review',t:'review',q:'Ready to save?',why:'Check each answer. You can change any of them. Your REQ number is assigned when you save.'}];
+let GUIDE=null,GQ='',GFOC='';
+function setGuide(g){GUIDE=(g&&g.areas)?g:null;if(GUIDE)Object.keys(GUIDE.areas).forEach(k=>{const a=GUIDE.areas[k];a.txt=(k+' '+a.items.map(i=>i.p+' '+i.a).join(' ')).toLowerCase()})}
+const hasGuide=()=>!!(GUIDE&&Object.keys(GUIDE.areas).length);
+const gInfo=a=>{if(!hasGuide())return null;const key=Object.keys(GUIDE.areas).find(k=>k.toLowerCase()===String(a).toLowerCase());return key?GUIDE.areas[key]:null};
+const gtok=()=>GQ.toLowerCase().split(' ').map(x=>x.trim()).filter(x=>x.length>1);
+function gScore(a){const g=gInfo(a),tok=gtok();if(!g||!tok.length)return 0;return tok.filter(k=>g.txt.indexOf(k)>-1).length}
+function hl(t,tok){const s=String(t||''),low=s.toLowerCase();if(!tok.length)return esc(s);let out='',i=0;
+ while(i<s.length){let best=-1,len=0;tok.forEach(k=>{const p=low.indexOf(k,i);if(p>-1&&(best<0||p<best||(p===best&&k.length>len))){best=p;len=k.length}});
+  if(best<0){out+=esc(s.slice(i));break}
+  out+=esc(s.slice(i,best))+'<mark>'+esc(s.slice(best,best+len))+'</mark>';i=best+len}
+ return out}
+function gHits(){if(!gtok().length||!hasGuide())return [];return Object.keys(GUIDE.areas).map(k=>[k,gScore(k)]).filter(x=>x[1]>0).sort((a,b)=>b[1]-a[1]).map(x=>x[0])}
+function gMatchHTML(){if(!gtok().length)return '';const h=gHits();return h.length?h.length+(h.length===1?' area matches: ':' areas match: ')+esc(h.join(', ')):'No area matches that keyword. Try another word, or browse the list below.'}
+function gCardHTML(){
+ if(!GFOC)return '<p class="gs" style="margin:0">Not sure which one to pick? Point at or tap the <b>i</b> next to an area to see what it covers, or type a keyword in the search box.</p>';
+ const g=gInfo(GFOC);if(!g)return '';const tok=gtok(),sel=(ans.area||[]).includes(GFOC);
+ return `<div class="gc"><div class="gt"><b>${esc(GFOC)}</b>${g.l1.map(x=>`<span class="tag">${esc(x)}</span>`).join('')}</div><p class="gs">What this area covers</p><ul>${g.items.map(i=>`<li><b>${hl(i.p,tok)}</b><span>${hl(i.a,tok)}</span></li>`).join('')}</ul><button class="btn ${sel?'g':'p'} sm" data-pick="${esc(GFOC)}">${sel?'Remove this area':'Select this area'}</button></div>`}
+function areaPickerHTML(s){const tok=gtok(),groups={},order=[];
+ s.opts.forEach(a=>{const g=gInfo(a),l1=g?g.l1[0]:'Other areas';if(!groups[l1]){groups[l1]=[];order.push(l1)}groups[l1].push(a)});
+ order.sort((x,y)=>{const i=GUIDE.order.indexOf(x),j=GUIDE.order.indexOf(y);return (i<0?99:i)-(j<0?99:j)});
+ return `<div class="gsearch"><input class="t" id="gq" type="search" autocomplete="off" value="${esc(GQ)}" placeholder="Not sure? Type a keyword, for example discount, invoice, return or delivery" aria-label="Search process areas"></div><div class="hint" id="gmatch" style="min-height:20px">${gMatchHTML()}</div><div class="gwrap">`+order.map(l1=>`<div class="gh">${esc(l1)}</div><div class="chips" style="margin:6px 0 12px">${groups[l1].map(a=>{const on=(ans.area||[]).includes(a),sc=gScore(a);return `<span class="chipw ${sc?'hit':''} ${tok.length&&!sc&&!on?'dim':''}"><button class="chip ${on?'sel':''}" data-c="${esc(a)}">${esc(a)}</button>${gInfo(a)?`<button class="info" data-i="${esc(a)}" aria-label="What is in ${esc(a)}?" title="What is in this area?">i</button>`:''}</span>`}).join('')}</div>`).join('')+'</div>'}
+function gRoot(){return capMode==='split'?$('#cv-split'):$('#cv-conv')}
+function setFoc(a){GFOC=a;const c=gRoot().querySelector('#gcard');if(c){c.innerHTML=gCardHTML();bindPick();const m=$('#msgs');if(m)m.scrollTop=m.scrollHeight}}
+function bindPick(){const b=gRoot().querySelector('#gcard [data-pick]');if(b)b.onclick=()=>{pick(STEPS()[ci],b.dataset.pick);drawChat()}}
+function applyGuideSearch(){const tok=gtok();gRoot().querySelectorAll('.chipw').forEach(w=>{const a=w.querySelector('.chip').dataset.c,sc=gScore(a);w.classList.toggle('hit',sc>0);w.classList.toggle('dim',tok.length>0&&sc===0&&!w.querySelector('.chip.sel'))});
+ const m=gRoot().querySelector('#gmatch');if(m)m.innerHTML=gMatchHTML();const h=gHits();if(h.length)setFoc(h[0]);else setFoc(GFOC)}
+function bindGuide(){if(!hasGuide())return;const s=STEPS()[ci];if(!s||s.k!=='area')return;
+ gRoot().querySelectorAll('.chipw .chip').forEach(c=>{c.onmouseenter=()=>setFoc(c.dataset.c);c.onfocus=()=>setFoc(c.dataset.c)});
+ gRoot().querySelectorAll('.chipw .info').forEach(b=>{b.onclick=()=>setFoc(b.dataset.i)});
+ const q=gRoot().querySelector('#gq');if(q)q.oninput=()=>{GQ=q.value;applyGuideSearch()};
+ bindPick()}
+let ans={},ci=0,cdone=null,saving=false;
+const show=k=>Array.isArray(ans[k])?ans[k].join(', '):(ans[k]||'');
+const has=k=>Array.isArray(ans[k])?ans[k].length>0:!!ans[k];
+function resetChat(){ans={};if(ME&&ME.name)ans.who=ME.name;ci=0;cdone=null;saving=false}
+function pick(s,v){if(s.t==='multi'){const a=ans[s.k]||[],i=a.indexOf(v);i>-1?a.splice(i,1):a.push(v);ans[s.k]=a;if(!a.length)delete ans[s.k]}else ans[s.k]=v}
+const URL_MSG='Please paste a link that starts with http or https, or choose Skip.';
+const hasUrl=v=>/https?:[\/]{2}\S+/i.test(v||'');
+function chipsHTML(s){
+ if(s.k==='area'&&hasGuide())return areaPickerHTML(s);
+ if(s.t==='big')return `<div class="chips">${s.opts.map(o=>`<button class="chip big ${ans[s.k]===o[0]?'sel':''}" data-c="${esc(o[0])}">${esc(o[0])}<small>${esc(o[1])}</small></button>`).join('')}</div>`;
+ return `<div class="chips">${s.opts.map(o=>`<button class="chip ${(s.t==='multi'?(ans[s.k]||[]).includes(o):ans[s.k]===o)?'sel':''}" data-c="${esc(o)}">${esc(o)}</button>`).join('')}</div>`}
+function summary(S){return S.slice(0,-1).map((s,i)=>`<div class="sumrow"><span>${esc(s.label)}</span><span>${esc(show(s.k))||'<i class="hint">Skipped</i>'}</span><button data-e="${i}">Edit</button></div>`).join('')}
+function drawConv(){
+ const S=STEPS(),m=$('#msgs'),c=$('#ctl');$('#cbar').style.width=Math.round(ci/(S.length-1)*100)+'%';
+ if(cdone){m.innerHTML=`<div class="done"><h2>${esc(cdone)} saved</h2><p class="hint">It is in the Register and in the Google Sheet with status Pending, logged by ${esc(ans.who||ME.email)} (${esc(ME.email)}).</p></div>`;
+  c.innerHTML='<div class="row" style="justify-content:center"><button class="btn p" id="again">Add another requirement</button></div>';$('#again').onclick=()=>{resetChat();drawChat()};return}
+ let h=`<div class="m">Hi${ans.who?' '+esc(ans.who.split(' ')[0]):''}, I will ask a few short questions to capture your requirement for the SAP S/4HANA project. It takes about 3 minutes.</div>`;
+ for(let i=0;i<=ci;i++){const s=S[i];h+=`<div class="m ${i===ci?'msg-in':''}">${esc(s.q)}<small>${esc(s.why)}</small></div>`;
+  if(i===ci&&s.k==='area'&&hasGuide())h+='<div class="m ginfo" id="gcard">'+gCardHTML()+'</div>';
+  if(i<ci)h+=`<button class="m me" data-r="${i}"><em>Tap to change</em>${esc(show(s.k))||'(skipped)'}</button>`}
+ const s=S[ci];if(s.t==='review')h+=`<div class="m" style="max-width:100%;width:100%">${summary(S)}</div>`;
+ m.innerHTML=h;m.scrollTop=m.scrollHeight;
+ $$('#msgs [data-r],#msgs [data-e]').forEach(b=>b.onclick=()=>{ci=+(b.dataset.r??b.dataset.e);drawChat()});
+ let ctl='';
+ if(['multi','single','big'].includes(s.t))ctl=chipsHTML(s)+`<div class="row" style="justify-content:space-between"><span class="hint">${s.t==='multi'?'Pick all that apply, then confirm':'Tap one'}</span>${s.t==='multi'?`<button class="btn p" id="cn" ${has(s.k)?'':'disabled'}>Confirm</button>`:''}</div>`;
+ else if(s.t==='text'||s.t==='area')ctl=`<div class="row">${s.t==='text'?`<input class="t" id="cin" placeholder="${esc(s.ph)}" value="${esc(show(s.k))}" aria-label="Your answer">`:`<textarea class="t" id="cin" style="min-height:84px" placeholder="${esc(s.ph)}" aria-label="Your answer">${esc(show(s.k))}</textarea>`}<button class="btn p" id="cn">Send</button>${s.opt?'<button class="btn g" id="skip">Skip</button>':''}</div><div class="hint" style="margin-top:6px">Example: ${esc(s.ex)}</div>`;
+ else ctl=`<div class="row" style="justify-content:flex-end"><button class="btn p" id="cn" ${saving?'disabled':''}>${saving?'Saving…':'Save requirement'}</button></div>`;
+ c.innerHTML=ctl;
+ $$('#ctl [data-c]').forEach(b=>b.onclick=()=>{pick(s,b.dataset.c);if(s.t==='multi')drawChat();else{ci++;drawChat()}});
+ bindGuide();
+ const n=$('#cn'),inp=$('#cin');
+ if(n)n.onclick=()=>{if(inp){const v=inp.value.trim();if(!v){inp.focus();return}if(s.url&&!hasUrl(v)){toast(URL_MSG,true);return}ans[s.k]=v}if(s.t==='review')return saveChat();ci++;drawChat()};
+ if($('#skip'))$('#skip').onclick=()=>{delete ans[s.k];ci++;drawChat()};
+ if(inp&&s.t==='text')inp.onkeydown=e=>{if(e.key==='Enter')n.click()};
+ if(inp)inp.focus({preventScroll:true});
+}
+
+let capMode=(function(){try{return localStorage.getItem('capmode')||'conv'}catch(e){return 'conv'}})();
+const TINTS={who:'#D0C8BA',name:'#C5E4CC',area:'#F2CDC4',proc:'#DEA193',brd:'#C5E4CC',order:'#F2CDC4',desc:'#8FA596',asis:'#D0C8BA',future:'#C5E4CC',priority:'#DEA193',usecase:'#F2CDC4',lucid:'#8FA596',demo:'#D0C8BA',notes:'#C5E4CC',rev:'#FF7023'};
+const PRI_DESC={high:'Important and should be handled soon',medium:'Should be planned in the normal course',low:'Nice to have and can wait'};
+function setMode(m){capMode=m;try{localStorage.setItem('capmode',m)}catch(e){}drawChat()}
+$$('#capsw button').forEach(b=>b.onclick=()=>setMode(b.dataset.m));
+function drawChat(){
+ if(!ME||!can('editor')||tabNow!=='cap')return;
+ $$('#capsw button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.m===capMode)));
+ $('#cv-conv').hidden=capMode!=='conv';$('#cv-split').hidden=capMode!=='split';
+ if(capMode==='split')drawSplit();else drawConv();
+}
+function drawSplit(){
+ const S=STEPS(),el=$('#cv-split'),idx=ci,s=S[idx],last=idx===S.length-1,fg=last?'#fff':'#2D2A27',tint=TINTS[s.k]||'#D0C8BA';
+ if(cdone){el.innerHTML=`<div class="card done" style="max-width:700px;margin:0 auto"><h2>${esc(cdone)} saved</h2><p class="hint">It is in the Register and in the Google Sheet with status Pending, logged by ${esc(ans.who||ME.email)} (${esc(ME.email)}).</p><button class="btn p" id="again">Add another requirement</button></div>`;$('#again').onclick=()=>{resetChat();drawChat()};return}
+ const ok=last?!saving:(s.opt||has(s.k));
+ let input='';
+ if(['multi','single','big'].includes(s.t))input=chipsHTML(s);
+ else if(s.t==='text')input=`<div style="margin-top:20px"><input class="t" id="sin" value="${esc(show(s.k))}" placeholder="${esc(s.ph)}" aria-label="${esc(s.q)}"></div>`;
+ else if(s.t==='area')input=`<div style="margin-top:20px"><textarea class="t" id="sin" placeholder="${esc(s.ph)}" aria-label="${esc(s.q)}">${esc(show(s.k))}</textarea></div>`;
+ else input=`<div style="margin-top:12px">${summary(S)}</div>`;
+ const dotsStyle=i=>fg==='#fff'?`style="background:${i<=idx?'#fff':'rgba(255,255,255,.35)'}"`:'';
+ el.innerHTML=`<div class="split"><div class="sl" style="background:${tint};color:${fg}"><div class="cnt">Question ${idx+1} of ${S.length}</div><h3>${esc(s.label)}</h3><p>${esc(s.why)}</p><div class="dots" aria-hidden="true">${S.map((_,i)=>`<i class="${i<=idx?'f':''}" ${dotsStyle(i)}></i>`).join('')}</div>${(s.k==='area'&&hasGuide())?'<div class="gcard" id="gcard">'+gCardHTML()+'</div>':''}${s.ex?`<div class="ex">Example: ${esc(s.ex)}</div>`:''}</div>
+ <div class="sr"><h2>${esc(s.q)}</h2>${input}<div class="foot"><button class="btn g" id="sb" ${idx===0?'disabled':''}>Back</button><span class="hint">${s.t==='multi'?'Pick as many as you need':''}</span><span>${s.opt?'<button class="btn g" id="sskip">Skip</button> ':''}<button class="btn p" id="sn" ${ok?'':'disabled'}>${last?(saving?'Saving…':'Save requirement'):'Continue'}</button></span></div></div></div>`;
+ el.querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>{pick(s,b.dataset.c);drawChat();if(s.t!=='multi')setTimeout(()=>{if(ci===idx&&!cdone){ci++;drawChat()}},220)});
+ el.querySelectorAll('[data-e]').forEach(b=>b.onclick=()=>{ci=+b.dataset.e;drawChat()});
+ bindGuide();
+ const inp=el.querySelector('#sin'),nx=el.querySelector('#sn');
+ if(inp){inp.oninput=()=>{const v=inp.value;if(v.trim())ans[s.k]=v;else delete ans[s.k];nx.disabled=!(s.opt||has(s.k))};inp.focus({preventScroll:true});if(s.t==='text')inp.onkeydown=e=>{if(e.key==='Enter'&&!nx.disabled)nx.click()}}
+ el.querySelector('#sb').onclick=()=>{if(ci>0){ci--;drawChat()}};
+ if(el.querySelector('#sskip'))el.querySelector('#sskip').onclick=()=>{delete ans[s.k];ci++;drawChat()};
+ nx.onclick=()=>{if(s.url){const v=(ans[s.k]||'').trim();if(v&&!hasUrl(v)){toast(URL_MSG,true);return}}if(last)return saveChat();ci++;drawChat()};
+}
+async function saveChat(){
+ if(saving)return;saving=true;drawChat();
+ try{const r=await api('saveRequirement',{responder:ans.who,area:show('area'),proc:ans.proc,brd:ans.brd,name:ans.name,order:show('order'),desc:ans.desc||'',asis:ans.asis||'',future:ans.future||'',demo:ans.demo,usecase:ans.usecase||'',lucid:ans.lucid||'',notes:ans.notes||'',priority:ans.priority||''});
+  saving=false;if(r.ok){cdone=r.req;if(ans.who){ME.name=ans.who;$('#who').innerHTML=`<b>${esc(ME.name)}</b>${esc(ME.email)} · ${ME.role[0].toUpperCase()+ME.role.slice(1)}`}loadData();drawChat()}else{toast(r.msg||'Could not save',true);drawChat()}
+ }catch(e){saving=false;toast(e.message,true);drawChat()}}
+
+const FILT={q:'',area:[],proc:[],order:'',brd:'',status:'',priority:'',from:'',to:'',del:false,who:[]};
+const FLAB={q:'Search',area:'Area',proc:'Process',order:'Order type',brd:'Type',status:'Status',priority:'Priority'};
+function opt(sel,label,list){$(sel).innerHTML=`<option value="">${label}</option>`+list.map(x=>`<option>${esc(x)}</option>`).join('')}
+function syncCtl(){MSF.forEach(f=>{$('#f-'+f).textContent=msLabel(f)});['q','order','brd','status','priority','from','to'].forEach(k=>{const el=$('#f-'+k);
+  if(FILT[k]&&el.tagName==='SELECT'&&![...el.options].some(o=>o.value===FILT[k]))el.add(new Option(FILT[k],FILT[k]));el.value=FILT[k]});$('#f-del').checked=FILT.del}
+function setFilter(k,v){FILT[k]=v;syncCtl();page=0;renderReg()}
+function clearAll(){Object.keys(FILT).forEach(k=>FILT[k]=k==='del'?false:(Array.isArray(FILT[k])?[]:''));syncCtl();page=0;renderReg()}
+function buildFilters(){opt('#f-order','All order types',L().orders.concat('(none)'));opt('#f-brd','All types',L().brd.concat('(none)'));opt('#f-status','All statuses',L().status.concat('Draft'));$('#f-delw').hidden=!can('owner');
+ bindMs();
+ ['q','order','brd','status','priority','from','to'].forEach(k=>{const el=$('#f-'+k),h=()=>{if(FILT[k]===el.value)return;FILT[k]=el.value;page=0;renderReg()};el.oninput=el.onchange=h});
+ $('#f-del').onchange=e=>{FILT.del=e.target.checked;page=0;renderReg()};
+ $('#f-clear').onclick=clearAll;
+ $('#f-refresh').onclick=async()=>{try{await loadData();toast('Register refreshed')}catch(e){toast(e.message,true)}};
+ $('#f-csv').onclick=()=>csv('requirements',['REQ #','Process area','Process','Requirement','Order type','Type','Status','Description','As is','Change request','Demo ready','Data source / use cases','Lucid chart','Priority','Responder','Email','Logged on'],filtered().map(r=>[r.req,r.area,r.proc,r.name,r.order,r.brd,r.status,r.desc,r.asis,r.future,r.demo,r.usecase,r.lucid,r.priority,r.respName,r.respEmail,r.logged]));
+ $('#pprev').onclick=()=>{if(page>0){page--;renderReg()}};$('#pnext').onclick=()=>{page++;renderReg()};
+}
+function filtered(skip){const f=FILT,q=f.q.toLowerCase();return ROWS.filter(r=>{
+ if(r.deleted&&!f.del)return false;
+ if(skip!=='q'&&q&&!(r.req+' '+r.name+' '+r.desc+' '+r.asis+' '+r.future+' '+r.area+' '+r.respName+' '+r.respEmail).toLowerCase().includes(q))return false;
+ if(skip!=='area'&&f.area.length&&!split(r.area).some(a=>f.area.some(x=>lcm(x)===lcm(a))))return false;
+ if(skip!=='proc'&&f.proc.length&&!f.proc.some(x=>x==='(none)'?!String(r.proc||'').trim():lcm(String(r.proc||'').trim())===lcm(x)))return false;
+ if(skip!=='order'&&f.order&&!(f.order==='(none)'?!split(r.order).length:split(r.order).includes(f.order)))return false;
+ if(skip!=='brd'&&f.brd&&!(f.brd==='(none)'?!r.brd:r.brd===f.brd))return false;
+ if(skip!=='status'&&f.status&&!(f.status==='Draft'?!r.status:r.status===f.status))return false;
+ if(skip!=='priority'&&f.priority){const pv=String(r.priority||'').trim();if(!(f.priority==='(none)'?!pv:pv.toLowerCase()===f.priority.toLowerCase()))return false}
+ if(skip!=='who'&&f.who.length&&!f.who.includes(whoKey(r)))return false;
+ if(skip!=='date'&&(f.from||f.to)){const d=day(r.logged);if(!d)return false;if(f.from&&d<f.from)return false;if(f.to&&d>f.to)return false}
+ return true}).sort((a,b)=>(+(b.req.match(/\d+/)||0))-(+(a.req.match(/\d+/)||0)))}
+const PAL=['#FF7023','#BD673D','#8FA596','#DEA193','#C5E4CC','#D0C8BA','#71584C','#FFA06C','#95685D','#5A6359','#F2CDC4','#D39A7E','#A2B4A7','#B89867','#55250C'];
+const MSF=['area','proc','who'];
+const MSL={area:['All process areas','areas selected'],proc:['All processes','processes selected']};
+const whoKey=r=>{const n=String(r.respName||'').trim().toLowerCase();return n||'__none__'};
+const whoName=k=>{if(k==='__none__')return '(not recorded)';const r=ROWS.find(x=>whoKey(x)===k);return r?String(r.respName).trim():k};
+const lcm=x=>String(x).toLowerCase();
+const pickCase=(list,a)=>{const f=(list||[]).find(x=>lcm(x)===lcm(a));return f||a};
+function msName(f,k){return f==='who'?whoName(k):k}
+function msItems(f){const rows=filtered(f),m={},order=[];
+ const add=(k,n)=>{if(!m[k]){m[k]={key:k,name:n,count:0};order.push(k)}return m[k]};
+ if(f==='who'){rows.forEach(r=>{const k=whoKey(r);add(k,whoName(k)).count++})}
+ else if(f==='area'){L().areas.forEach(a=>add(a,a));rows.forEach(r=>split(r.area).forEach(a=>{const k=pickCase(L().areas,a);add(k,k).count++}))}
+ else{L().procs.forEach(p=>add(p,p));rows.forEach(r=>{const p=String(r.proc||'').trim(),k=p?pickCase(L().procs,p):'(none)';add(k,k).count++});add('(none)','(none)')}
+ FILT[f].forEach(k=>add(k,msName(f,k)));
+ let out=order.map(k=>m[k]);
+ if(f==='who')out.sort((a,b)=>(b.count-a.count)||a.name.localeCompare(b.name));
+ if(f==='proc')out=out.filter(x=>x.key!=='(none)'||x.count>0||FILT.proc.includes('(none)'));
+ return out}
+function msLabel(f){const n=FILT[f].length;
+ if(f==='who')return 'Logged by: '+(n===0?'Everyone':n===1?whoName(FILT.who[0]):n+' people')+' ▾';
+ return (n===0?MSL[f][0]:n===1?FILT[f][0]:n+' '+MSL[f][1])+' ▾'}
+function msShown(f){const q=($('#'+f+'-q').value||'').toLowerCase();return msItems(f).filter(x=>!q||x.name.toLowerCase().indexOf(q)>-1)}
+function renderMs(f){const list=msShown(f);
+ $('#'+f+'-list').innerHTML=list.length?list.map(x=>`<label class="pi"><input type="checkbox" value="${esc(x.key)}" ${FILT[f].includes(x.key)?'checked':''}><span class="pn">${esc(x.name)}</span><span class="pc">${x.count}</span></label>`).join(''):'<div class="empty" style="padding:14px">Nothing matches.</div>';
+ $$('#'+f+'-list input').forEach(i=>{i.onchange=()=>{const k=i.value;if(i.checked){if(!FILT[f].includes(k))FILT[f].push(k)}else{FILT[f]=FILT[f].filter(x=>x!==k)}page=0;renderReg()}})}
+function msOpen(f,o){MSF.forEach(g=>{if(g!==f){$('#'+g+'-pop').hidden=true;$('#f-'+g).setAttribute('aria-expanded','false')}});
+ $('#'+f+'-pop').hidden=!o;$('#f-'+f).setAttribute('aria-expanded',String(o));if(o){$('#'+f+'-q').value='';renderMs(f);$('#'+f+'-q').focus()}}
+function refreshMs(){MSF.forEach(f=>{$('#f-'+f).textContent=msLabel(f);const p=$('#'+f+'-pop');if(!p.hidden&&!p.contains(document.activeElement))renderMs(f)})}
+function bindMs(){MSF.forEach(f=>{
+ $('#f-'+f).onclick=()=>msOpen(f,$('#'+f+'-pop').hidden);$('#'+f+'-q').oninput=()=>renderMs(f);
+ $('#'+f+'-all').onclick=()=>{msShown(f).forEach(x=>{if(!FILT[f].includes(x.key))FILT[f].push(x.key)});page=0;renderReg();renderMs(f)};
+ $('#'+f+'-none').onclick=()=>{FILT[f]=[];page=0;renderReg();renderMs(f)};
+ $('#'+f+'-done').onclick=()=>{msOpen(f,false);$('#f-'+f).focus()}});
+ document.addEventListener('click',e=>{if(!e.target.closest('.pw'))MSF.forEach(f=>{if(!$('#'+f+'-pop').hidden)msOpen(f,false)})});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape')MSF.forEach(f=>{if(!$('#'+f+'-pop').hidden){msOpen(f,false);$('#f-'+f).focus()}})})}
+const PRI_KEYS=[['lowest',4],['minor',4],['p4',4],['highest',0],['critical',0],['urgent',0],['p0',0],['p1',0],['high',1],['medium',2],['med',2],['normal',2],['p2',2],['low',3],['p3',3]];
+const PRI_COL=['#FF7023','#BD673D','#8FA596','#DEA193','#71584C','#A2B4A7'];
+function priRank(v){const s=String(v).toLowerCase(),l=(CFG&&CFG.lists&&CFG.lists.priority)||[];const i=l.findIndex(x=>String(x).toLowerCase()===s);if(i>-1)return i;
+ for(let j=0;j<PRI_KEYS.length;j++){if(s.indexOf(PRI_KEYS[j][0])>-1)return 20+PRI_KEYS[j][1]}return 90}
+function priData(rows){const m={};rows.forEach(r=>{const raw=String(r.priority||'').trim(),k=raw.toLowerCase()||'(none)';if(!m[k])m[k]=[raw||'(none)',0];m[k][1]++});
+ const cfg=(CFG&&CFG.lists&&CFG.lists.priority)||[];cfg.forEach(v=>{const k=String(v).toLowerCase();if(!m[k])m[k]=[String(v),0]});
+ return Object.values(m).sort((a,b)=>{const ra=a[0]==='(none)'?999:priRank(a[0]),rb=b[0]==='(none)'?999:priRank(b[0]);return (ra-rb)||a[0].localeCompare(b[0],undefined,{numeric:true})})}
+function priChart(data,sel){const tot=data.reduce((s,d)=>s+d[1],0);if(!data.length)return '<div class="empty">No data</div>';
+ const W=320,H=200,n=data.length,gap=12,bw=Math.min(56,(W-24-gap*(n-1))/n),mx=Math.max(1,...data.map(d=>d[1])),base=H-36,x0=(W-(bw*n+gap*(n-1)))/2,s0=String(sel||'').toLowerCase();
+ return `<svg viewBox="0 0 ${W} ${H}" width="100%" style="max-height:270px" role="group" aria-label="Requirements by priority. Select a bar to filter."><line x1="10" x2="${W-10}" y1="${base}" y2="${base}" stroke="#E3D9C6"/>`+data.map((d,i)=>{
+  const h=Math.max(3,(d[1]/mx)*(base-34)),x=x0+i*(bw+gap),y=base-h,on=!!s0&&s0===d[0].toLowerCase(),col=d[0]==='(none)'?'#D0C8BA':PRI_COL[i%PRI_COL.length],lab=d[0].length>10?d[0].slice(0,9)+'…':d[0];
+  return `<g class="pb ${s0&&!on?'dim':''} ${on?'on':''}" data-ck="priority" data-cv="${esc(d[0])}" tabindex="0" role="button" aria-pressed="${on}" aria-label="${esc(d[0])}: ${d[1]} requirements"><title>${esc(d[0])}: ${d[1]}${tot?' ('+Math.round(d[1]/tot*100)+'%)':''}</title><rect x="${x}" y="${y}" width="${bw}" height="${h}" rx="6" fill="${col}"/><text x="${x+bw/2}" y="${y-6}" text-anchor="middle" font-size="12" font-weight="700" fill="currentColor">${d[1]}</text><text x="${x+bw/2}" y="${H-16}" text-anchor="middle" font-size="10" fill="currentColor">${esc(lab)}</text></g>`}).join('')+`</svg><div class="leg"><span>${tot} requirement${tot===1?'':'s'} · select a bar to filter</span></div>`}
+function refreshPriSelect(){const el=$('#f-priority'),vals=priData(filtered('priority').filter(r=>!r.deleted)).map(d=>d[0]),sig=vals.join('|');
+ if(el.dataset.sig!==sig){el.dataset.sig=sig;opt('#f-priority','All priorities',vals);el.value=FILT.priority}
+ if(FILT.priority&&!vals.some(v=>v.toLowerCase()===FILT.priority.toLowerCase())){el.add(new Option(FILT.priority,FILT.priority));}el.value=FILT.priority}
+const EFX=()=>EF.map(e=>(e[0]==='priority'&&L().priority&&L().priority.length)?['priority','Priority','select','priority']:e);
+const count=(rows,fn)=>{const m={};rows.forEach(r=>{(Array.isArray(fn(r))?fn(r):[fn(r)]).forEach(v=>{v=v||'(none)';m[v]=(m[v]||0)+1})});return Object.entries(m).sort((a,b)=>b[1]-a[1])};
+function donut(data,sel){const S=Array.isArray(sel)?sel:(sel?[sel]:[]);const tot=data.reduce((s,d)=>s+d[1],0);if(!tot&&!S.length)return '<div class="empty">No data</div>';
+ const C=2*Math.PI*70;let off=0;
+ const arcs=data.map((d,i)=>{const len=d[1]/tot*C,on=S.includes(d[0]);const a=`<circle class="seg ${S.length&&!on?'dim':''} ${on?'on':''}" data-ck="proc" data-cv="${esc(d[0])}" tabindex="0" role="button" aria-pressed="${on}" aria-label="${esc(d[0])}: ${d[1]} requirements" cx="100" cy="100" r="70" fill="none" stroke="${PAL[i%PAL.length]}" stroke-dasharray="${Math.max(len-1.2,.6)} ${C}" stroke-dashoffset="${-off}"><title>${esc(d[0])}: ${d[1]} (${Math.round(d[1]/tot*100)}%)</title></circle>`;off+=len;return a}).join('');
+ const s=S.length?[0,data.filter(d=>S.includes(d[0])).reduce((a,d)=>a+d[1],0)]:null;
+ return `<svg viewBox="0 0 200 200" width="100%" style="max-height:230px" role="group" aria-label="Requirements by process. Select a slice to filter."><g transform="rotate(-90 100 100)">${arcs}</g><text x="100" y="98" text-anchor="middle" font-size="${s?26:30}" font-weight="700" fill="currentColor">${s?s[1]:tot}</text><text x="100" y="118" text-anchor="middle" font-size="11" fill="currentColor">${s?'selected':'total'}</text></svg>
+ <div class="lgl">${data.map((d,i)=>{const on=S.includes(d[0]);return `<button class="lg ${S.length&&!on?'dim':''} ${on?'on':''}" data-ck="proc" data-cv="${esc(d[0])}" aria-pressed="${on}"><i style="background:${PAL[i%PAL.length]}"></i><span>${esc(d[0])}</span><b>${d[1]}</b></button>`}).join('')}</div>`}
+function bars(title,key,data,color,sel){const mx=Math.max(1,...data.map(d=>d[1]));let list=data.slice(0,6);
+ if(sel&&!list.some(d=>d[0]===sel)){const x=data.find(d=>d[0]===sel);if(x)list.push(x)}
+ return `<h3 class="bt">${title}</h3>`+(list.map(d=>{const on=sel===d[0];return `<button class="hb ${sel&&!on?'dim':''} ${on?'on':''}" data-ck="${key}" data-cv="${esc(d[0])}" aria-pressed="${on}" title="${esc(d[0])}: ${d[1]}"><span class="hl">${esc(d[0])}</span><span class="b"><i style="width:${d[1]/mx*100}%;background:${color}"></i></span><b>${d[1]}</b></button>`}).join('')||'<div class="empty">No data</div>')}
+function weekStart(iso){const d=new Date(iso);if(isNaN(d))return '';d.setHours(0,0,0,0);d.setDate(d.getDate()-((d.getDay()+6)%7));return day(d)}
+function addDays(k,n){const d=new Date(k+'T00:00:00');d.setDate(d.getDate()+n);return day(d)}
+function line(rows){const wk={};rows.forEach(r=>{const k=r.logged?weekStart(r.logged):'';if(k)wk[k]=(wk[k]||0)+1});
+ const keys=Object.keys(wk).sort();if(keys.length<2)return `<div class="empty">The line fills in as people log requirements. Older rows have no logged date.</div>`;
+ const all=[];let k=keys[Math.max(0,keys.length-12)];while(k<=keys[keys.length-1]){all.push(k);k=addDays(k,7)}
+ const v=all.map(x=>wk[x]||0),mx=Math.max(...v,1),W=320,H=150,px=i=>16+i*(W-32)/Math.max(1,v.length-1),py=y=>H-26-(y/mx)*(H-52);
+ const selWk=(FILT.from&&FILT.to&&FILT.to===addDays(FILT.from,6))?FILT.from:'';
+ return `<svg viewBox="0 0 ${W} ${H}" width="100%" style="max-height:230px" role="group" aria-label="Requirements logged per week. Select a point to filter by that week."><g stroke="#E3D9C6" opacity=".7"><line x1="10" x2="${W-10}" y1="${py(0)}" y2="${py(0)}"/><line x1="10" x2="${W-10}" y1="${py(mx)}" y2="${py(mx)}"/></g>
+ <polyline fill="none" stroke="#FF7023" stroke-width="3" stroke-linejoin="round" points="${v.map((y,i)=>px(i)+','+py(y)).join(' ')}"/>
+ ${v.map((y,i)=>{const on=all[i]===selWk;return `<g class="pt ${on?'on':''}" data-wk="${all[i]}" tabindex="0" role="button" aria-pressed="${on}" aria-label="Week of ${all[i]}: ${y} requirements"><circle cx="${px(i)}" cy="${py(y)}" r="13" fill="transparent"/><circle class="dot" cx="${px(i)}" cy="${py(y)}" r="${on?7:4}" fill="${on?'#2D2A27':'#FF7023'}" stroke="#FF7023" stroke-width="2"/><title>Week of ${all[i]}: ${y}</title></g>`}).join('')}
+ <text x="10" y="12" font-size="10" fill="currentColor">${mx} max per week</text><text x="10" y="${H-6}" font-size="10" fill="currentColor">${all[0]}</text><text x="${W-10}" y="${H-6}" font-size="10" text-anchor="end" fill="currentColor">${all[all.length-1]}</text></svg><div class="leg"><span>Select a point to filter by that week</span></div>`}
+function pillColor(s){return s==='Reviewed'?'var(--mint)':s==='Pending'?'var(--rose)':s==='Duplicated'?'var(--quartz)':'var(--stone)'}
+function toggleF(k,v){if(k==='proc'){const a=FILT.proc,i=a.indexOf(v);if(i>-1)a.splice(i,1);else a.push(v);syncCtl();page=0;renderReg();return}setFilter(k,FILT[k]===v?'':v)}
+function toggleWeek(k){const to=addDays(k,6);if(FILT.from===k&&FILT.to===to){FILT.from='';FILT.to=''}else{FILT.from=k;FILT.to=to}syncCtl();page=0;renderReg()}
+function bindCharts(){$$('[data-ck]').forEach(el=>{el.onclick=()=>toggleF(el.dataset.ck,el.dataset.cv);el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleF(el.dataset.ck,el.dataset.cv)}}});
+ $$('[data-wk]').forEach(el=>{el.onclick=()=>toggleWeek(el.dataset.wk);el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();toggleWeek(el.dataset.wk)}}})}
+function renderChips(){const c=[];['q','order','brd','status','priority'].forEach(k=>{if(FILT[k])c.push([k,k==='q'?'“'+FILT.q+'”':FILT[k],FLAB[k]])});
+ MSF.forEach(k=>{if(FILT[k].length){const n=FILT[k].map(x=>msName(k,x));c.push([k,n.length>3?n.slice(0,3).join(', ')+' +'+(n.length-3)+' more':n.join(', '),k==='who'?'Logged by':FLAB[k]])}});
+ if(FILT.from||FILT.to)c.push(['date',(FILT.from||'…')+' to '+(FILT.to||'…'),'Logged']);
+ $('#chips').innerHTML=c.length?`<span class="hint">Showing only:</span>`+c.map(([k,v,l])=>`<button class="fchip" data-x="${k}" aria-label="Remove filter ${esc(l)}">${esc(l)}: ${esc(v)} ✕</button>`).join('')+`<button class="btn g sm" id="chip-clear">Clear all</button>`:'<span class="hint">Tip: select a slice, bar or point in the charts to filter the whole page.</span>';
+ $$('#chips [data-x]').forEach(b=>b.onclick=()=>{if(b.dataset.x==='date'){FILT.from='';FILT.to=''}else if(MSF.includes(b.dataset.x)){FILT[b.dataset.x]=[]}else FILT[b.dataset.x]='';syncCtl();page=0;renderReg()});
+ if($('#chip-clear'))$('#chip-clear').onclick=clearAll}
+function renderReg(){
+ const rows=filtered(),live=rows.filter(r=>!r.deleted),tot=live.length,rev=live.filter(r=>r.status==='Reviewed').length,pen=live.filter(r=>r.status==='Pending').length,pain=live.filter(r=>r.brd==='Pain Point').length;
+ const lv=skip=>filtered(skip).filter(r=>!r.deleted);
+ renderChips();
+ $('#kpis').innerHTML=`<div class="kpi" style="background:var(--orange);color:#fff"><b>${tot}</b><span>Requirements shown</span></div><div class="kpi" style="background:var(--mint)"><b>${rev}</b><span>Reviewed</span></div><div class="kpi" style="background:var(--rose)"><b>${pen}</b><span>Pending review</span></div><div class="kpi" style="background:var(--stone)"><b>${tot?Math.round(pain/tot*100):0}%</b><span>Marked Pain Point</span></div>`;
+ $('#c-donut').innerHTML=donut(count(lv('proc'),r=>r.proc),FILT.proc);
+ $('#c-bars').innerHTML=bars('By type','brd',count(lv('brd'),r=>r.brd),'#FF7023',FILT.brd)+bars('By order type','order',count(lv('order'),r=>split(r.order).length?split(r.order):'(none)'),'#BD673D',FILT.order)+bars('By status','status',count(lv('status'),r=>r.status||'Draft'),'#8FA596',FILT.status);
+ $('#c-line').innerHTML=line(lv('date'));
+ $('#c-pri').innerHTML=priChart(priData(lv('priority')),FILT.priority);
+ refreshPriSelect();refreshMs();
+ bindCharts();
+ const pages=Math.max(1,Math.ceil(rows.length/PAGE));if(page>=pages)page=pages-1;const slice=rows.slice(page*PAGE,page*PAGE+PAGE);
+ $('#tbody').innerHTML=slice.map(r=>`<tr class="click ${r.deleted?'del':''}" data-row="${esc(r.req)}" tabindex="0" aria-label="Open details for ${esc(r.req)}"><td><b>${esc(r.req)}</b></td><td>${esc(r.area)}</td><td>${esc(r.proc)}</td><td>${esc(r.name)}</td><td>${esc(r.order)}</td><td>${esc(r.brd)}</td><td><span class="pill" style="background:${pillColor(r.status)}">${esc(r.status||'Draft')}</span></td><td>${esc(r.respName||'')}${r.respEmail?`<br><span class="hint">${esc(r.respEmail)}</span>`:''}</td><td><div class="ra"><button class="det" data-v="${esc(r.req)}">Details</button>${can('editor')&&!r.deleted?`<button data-o="${esc(r.req)}">Edit</button><button data-d="${esc(r.req)}">Delete</button>`:''}${can('owner')&&r.deleted?`<button data-u="${esc(r.req)}">Restore</button>`:''}</div></td></tr>`).join('')||`<tr><td colspan="9"><div class="empty">No requirements match these filters.</div></td></tr>`;
+ $('#pinfo').textContent=rows.length?`Showing ${page*PAGE+1}–${page*PAGE+slice.length} of ${rows.length}`:'';
+ $('#pprev').disabled=page===0;$('#pnext').disabled=page>=pages-1;
+ $$('#tbody tr[data-row]').forEach(tr=>{tr.onclick=e=>{if(e.target.closest('button'))return;openDetail(tr.dataset.row)};tr.onkeydown=e=>{if(e.key==='Enter'&&e.target===tr)openDetail(tr.dataset.row)}});
+ $$('#tbody [data-v]').forEach(b=>b.onclick=()=>openDetail(b.dataset.v));
+ $$('#tbody [data-o]').forEach(b=>b.onclick=()=>openRow(b.dataset.o));
+ $$('#tbody [data-d]').forEach(b=>b.onclick=()=>delRow(b.dataset.d));
+ $$('#tbody [data-u]').forEach(b=>b.onclick=async()=>{try{await api('restoreRequirement',b.dataset.u);toast(b.dataset.u+' restored');loadData()}catch(e){toast(e.message,true)}});
+}
+async function delRow(req){const row=ROWS.find(x=>x.req===req);const go=await askConfirm({title:'Delete '+req+'?',message:(row&&row.name?'"'+row.name+'" will be hidden from the Register. ':'')+'An Owner can bring it back later.',ok:'Delete',cancel:'Keep it',danger:true});if(!go)return;try{await api('deleteRequirement',req);toast(req+' deleted');await loadData()}catch(e){toast(e.message,true)}}
+function csv(name,head,rows){const q=v=>'"'+String(v==null?'':v).replace(/"/g,'""')+'"';const t=[head,...rows].map(r=>r.map(q).join(',')).join('\n');
+ const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:'text/csv'}));a.download=name+'.csv';document.body.appendChild(a);a.click();a.remove()}
+
+let DET={list:[],i:0};
+function openDetail(req){DET.list=filtered().map(r=>r.req);DET.i=Math.max(0,DET.list.indexOf(req));showDetail(req)}
+function showDetail(req){const r=ROWS.find(x=>x.req===req);if(!r)return;
+ $('.sheet').classList.add('wide');$('#mt').textContent=r.req+(r.deleted?' (deleted)':'');
+ const tags=v=>split(v).map(x=>`<span class="tag">${esc(x)}</span>`).join('')||'<span class="hint">Not set</span>';
+ const linkify=x=>esc(x).replace(/(https?:[\/]{2}[^\s<]+)/g,u=>`<a href="${u}" target="_blank" rel="noopener noreferrer">${u}</a>`);
+ const sec=(t,v)=>`<section class="dsec"><h4>${t}</h4>${v?`<p class="ptxt">${esc(v)}</p>`:'<p class="hint" style="margin:0">Not provided</p>'}</section>`;
+ const extra=[['Order behavior / dependency of rule',r.behavior],['Data level',r.datalevel],['Data source / use cases',r.usecase,1],['Lucid chart',r.lucid,1],['Priority',r.priority],['BRD source',r.source],['Follow-up question (BA to stakeholders)',r.follow],['Answers (stakeholders to BA)',r.answers],['Notes / comments',r.notes]].filter(x=>x[1]);
+ $('#mb').innerHTML=`<div style="margin-top:12px"><span class="pill" style="background:${pillColor(r.status)}">${esc(r.status||'Draft')}</span> <span class="tag">${esc(r.brd||'No type')}</span> <span class="tag">Demo ready: ${esc(r.demo||'not set')}</span>${r.priority?` <span class="tag">Priority: ${esc(r.priority)}</span>`:''}</div>
+ <h2 class="dname">${esc(r.name||'(untitled)')}</h2>
+ <div class="dmeta"><div><h4>Process area</h4>${tags(r.area)}</div><div><h4>Process</h4>${tags(r.proc)}</div><div><h4>Order type</h4>${tags(r.order)}</div></div>
+ ${sec('The issue',r.desc)}${sec('Current practice',r.asis)}${sec('Change request: what you want the system to do',r.future)}
+ ${extra.length?`<div class="dgrid">${extra.map(([t,v,l])=>`<div><h4>${esc(t)}</h4><p class="ptxt">${l?linkify(v):esc(v)}</p></div>`).join('')}</div>`:''}
+ <p class="hint dfoot">Logged by ${esc(r.respName||'unknown')}${r.respEmail?' ('+esc(r.respEmail)+')':''}${r.logged?' on '+esc(fmt(r.logged)):''}${r.updated?' · Last updated '+esc(fmt(r.updated)):''}</p>`;
+ const i=DET.i,n=DET.list.length;
+ $('#mf').innerHTML=`<span class="hint" style="margin-right:auto">${n>1?`${i+1} of ${n} in the current list`:''}</span><button class="btn g" id="d-prev" ${i<=0?'disabled':''}>Previous</button><button class="btn g" id="d-next" ${i>=n-1?'disabled':''}>Next</button>${can('editor')&&!r.deleted?'<button class="btn p" id="d-edit">Edit</button>':''}<button class="btn" id="d-close">Close</button>`;
+ $('#d-close').onclick=closeM;$('#d-prev').onclick=()=>stepDetail(-1);$('#d-next').onclick=()=>stepDetail(1);
+ if($('#d-edit'))$('#d-edit').onclick=()=>openRow(r.req);
+ $('#modal').hidden=false;$('#mb').scrollTop=0}
+function stepDetail(d){const j=DET.i+d;if(j<0||j>=DET.list.length)return;DET.i=j;showDetail(DET.list[j])}
+
+const EF=[['name','Requirement name','text'],['area','Process area','multi','areas'],['proc','Process','select','procs'],['order','Order type','multi','orders'],['brd','Type','select','brd'],['status','Status','select','status'],['demo','Willing to demo to the implementation team?','select','demo'],['priority','Priority','text'],['desc','Description (what the issue is about)','area'],['asis','As-is process (current practice)','area'],['future','Change request (what you want the system to do)','area'],['behavior','Order behavior / dependency of rule','area'],['source','BRD source','text'],['usecase','Data source / use cases (links)','area'],['lucid','Lucid chart (links)','area'],['follow','Follow-up question (BA to stakeholders)','area'],['answers','Answers (stakeholders to BA)','area'],['notes','Notes / comments','area']];
+function openRow(req){const r=ROWS.find(x=>x.req===req);if(!r)return;const ro=!can('editor')||r.deleted;$('.sheet').classList.remove('wide');
+ $('#mt').textContent=r.req+(ro?' (read only)':'');
+ $('#mb').innerHTML=EFX().map(([k,lab,t,lk])=>{const id='e-'+k,val=r[k]||'',dis=ro?'disabled':'';
+  if(t==='text')return `<label class="l" for="${id}">${lab}</label><input class="t" id="${id}" value="${esc(val)}" ${dis}>`;
+  if(t==='area')return `<label class="l" for="${id}">${lab}</label><textarea class="t" id="${id}" ${dis}>${esc(val)}</textarea>`;
+  if(t==='select'){const list=L()[lk].slice();if(val&&!list.includes(val))list.push(val);return `<label class="l" for="${id}">${lab}</label><select class="t" id="${id}" ${dis}><option value=""></option>${list.map(o=>`<option ${o===val?'selected':''}>${esc(o)}</option>`).join('')}</select>`}
+  const cur=split(val),list=L()[lk].slice();cur.forEach(c=>{if(!list.includes(c))list.push(c)});
+  return `<label class="l">${lab}</label><div class="checks" data-k="${k}">${list.map(o=>`<label><input type="checkbox" value="${esc(o)}" ${cur.includes(o)?'checked':''} ${dis}> ${esc(o)}</label>`).join('')}</div>`}).join('')+
+  `<p class="hint" style="margin-top:14px">Logged by ${esc(r.respName||'unknown')} ${r.respEmail?'('+esc(r.respEmail)+')':''} ${r.logged?'on '+esc(fmt(r.logged)):''}</p>`;
+ $('#mf').innerHTML=ro?'':'<button class="btn g" id="m-cancel">Cancel</button><button class="btn p" id="m-save">Save changes</button>';
+ $('#modal').hidden=false;
+ if(!ro){$('#m-cancel').onclick=closeM;$('#m-save').onclick=async()=>{const rec={req:r.req,base:r.updated};
+  EFX().forEach(([k,,t])=>{if(t==='multi')rec[k]=$$(`#mb [data-k="${k}"] input:checked`).map(i=>i.value).join(', ');else rec[k]=$('#e-'+k).value});
+  const b=$('#m-save');b.disabled=true;b.textContent='Saving…';
+  try{const x=await api('saveRequirement',rec);if(x.ok){closeM();toast(x.nochange?'No changes to save':r.req+' saved');await loadData()}else{closeM();toast(x.msg,true);await loadData()}}
+  catch(e){toast(e.message,true);b.disabled=false;b.textContent='Save changes'}}}}
+function closeM(){$('#modal').hidden=true;$('.sheet').classList.remove('wide')}$('#mx').onclick=closeM;$('#modal').onclick=e=>{if(e.target.id==='modal')closeM()};
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeM();if(!$('#modal').hidden&&$('.sheet').classList.contains('wide')){if(e.key==='ArrowRight')stepDetail(1);if(e.key==='ArrowLeft')stepDetail(-1)}});
+
+function setMyName(v){ME.name=v;ans.who=v;$('#who').innerHTML=`<b>${esc(ME.name||ME.email)}</b>${esc(ME.email)} · ${ME.role[0].toUpperCase()+ME.role.slice(1)}`}
+let ADD={email:'',name:'',role:'Editor',mail:true};
+function typingInAccess(){const a=document.activeElement;return !!(a&&a.closest&&a.closest('#p-acc')&&/INPUT|TEXTAREA|SELECT/.test(a.tagName))}
+function addBoxHTML(){return `<div class="box" style="margin-bottom:16px"><h3>Add a person</h3><div class="addgrid"><div><label class="l" for="add-email" style="margin-top:0">Work email</label><input class="t" id="add-email" type="email" autocomplete="off" placeholder="name@example.com" value="${esc(ADD.email)}"></div><div><label class="l" for="add-name" style="margin-top:0">Name (optional)</label><input class="t" id="add-name" autocomplete="off" value="${esc(ADD.name)}"></div><div><label class="l" style="margin-top:0">Role</label><div class="chips" id="add-roles" style="margin:0">${['Viewer','Editor','Owner'].map(r=>`<button class="chip ${ADD.role===r?'sel':''}" data-ar2="${r}">${r}</button>`).join('')}</div></div></div><label class="hint" style="display:block;margin-top:12px"><input type="checkbox" id="add-mail" ${ADD.mail?'checked':''}> Email them to say they now have access</label><p style="margin:12px 0 0"><button class="btn p" id="add-go">Add person</button></p></div>`}
+function bindAdd(){const e=$('#add-email'),n=$('#add-name');
+ e.oninput=()=>{ADD.email=e.value};n.oninput=()=>{ADD.name=n.value};
+ $('#add-mail').onchange=ev=>{ADD.mail=ev.target.checked};
+ $$('#add-roles .chip').forEach(c=>c.onclick=()=>{ADD.role=c.dataset.ar2;$$('#add-roles .chip').forEach(x=>x.classList.toggle('sel',x===c))});
+ const go=async()=>{const em=ADD.email.trim().toLowerCase();
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){toast('Please enter a valid email address, for example name@example.com.',true);e.focus();return}
+  const dom=em.split('@')[1],mine=String(ME.email).split('@')[1];
+  if(dom!==mine){const yes=await askConfirm({title:'Add someone outside '+mine+'?',message:em+' is not on your company domain. They may not be able to open the app even with a role. Add them anyway?',ok:'Add anyway',cancel:'Cancel'});if(!yes)return}
+  const b=$('#add-go');b.disabled=true;
+  try{await api('addUser',em,ADD.name.trim(),ADD.role,ADD.mail);toast((ADD.name.trim()||em)+' was added as '+ADD.role.toLowerCase()+'.');ADD={email:'',name:'',role:'Editor',mail:true};renderAccess()}catch(err){toast(err.message,true);b.disabled=false}};
+ $('#add-go').onclick=go;e.onkeydown=n.onkeydown=ev=>{if(ev.key==='Enter')go()}}
+async function renderAccess(){
+ const p=$('#p-acc');
+ const cards=`<div class="three"><div class="role" style="background:var(--stone)"><h3>Viewer</h3>See the register and charts.<ul><li>No edits</li></ul></div><div class="role" style="background:var(--mint)"><h3>Editor</h3>Capture, edit and delete requirements.<ul><li>All changes are logged</li></ul></div><div class="role" style="background:var(--orange);color:#fff"><h3>Owner</h3>Manage access and see the audit log.<ul><li>Approves requests</li><li>Restores deleted rows</li></ul></div></div>`;
+ if(!can('owner')){p.innerHTML=cards+`<div class="box"><h3>Your access</h3><p>${esc(ME.email)} has the <b>${esc(ME.role)}</b> role. Ask an Owner if you need a different role.</p><label class="l" for="my-name">Your name</label><div class="row" style="max-width:460px"><input class="t" id="my-name" value="${esc(ME.name||'')}"><button class="btn p" id="my-save">Save name</button></div></div>`;
+  $('#my-save').onclick=async()=>{try{const v=$('#my-name').value.trim();await api('updateName',ME.email,v);setMyName(v);toast('Name updated')}catch(e){toast(e.message,true)}};return}
+ try{const rows=await api('listAccess');if(tabNow!=='acc')return;
+  const pend=rows.filter(r=>r.status==='Pending'),act=rows.filter(r=>r.status==='Active');
+  p.innerHTML=cards+addBoxHTML()+`<div class="box" style="margin-bottom:16px"><h3>Waiting for your approval (${pend.length})</h3>${pend.length?`<div class="tw"><table style="min-width:640px"><tbody>${pend.map(r=>`<tr><td><b>${esc(r.name)}</b><br><span class="hint">${esc(r.email)}</span></td><td>Asked for <b>${esc(r.reqRole)}</b><br><span class="hint">${esc(r.reason)}</span></td><td><div class="ra"><select class="t" data-ar="${esc(r.email)}" style="padding:4px 8px">${['viewer','editor','owner'].map(x=>`<option ${x===r.reqRole?'selected':''}>${x}</option>`).join('')}</select><button data-ap="${esc(r.email)}" style="background:var(--mint);color:#2D2A27">Approve</button><button data-dc="${esc(r.email)}">Decline</button></div></td></tr>`).join('')}</tbody></table></div>`:'<div class="empty">No requests waiting.</div>'}</div>
+  <div class="box"><h3>Everyone with access (${act.length})</h3><div class="tw"><table style="min-width:640px"><thead><tr><th>Person</th><th>Role</th><th>Since</th><th></th></tr></thead><tbody>${act.map(r=>`<tr><td><span><b>${esc(r.name||r.email)}</b> <button class="btn g sm" data-en="${esc(r.email)}">Edit name</button></span><br><span class="hint">${esc(r.email)}</span></td><td><select class="t" data-sr="${esc(r.email)}" style="padding:4px 8px">${['viewer','editor','owner'].map(x=>`<option ${x===r.role?'selected':''}>${x}</option>`).join('')}</select></td><td>${esc(fmt(r.at))}</td><td><button class="btn g sm" data-rv="${esc(r.email)}">Revoke</button></td></tr>`).join('')}</tbody></table></div></div>`;
+  bindAdd();
+  const run=async(msg,fn,...a)=>{try{await api(fn,...a);toast(msg);renderAccess()}catch(e){toast(e.message,true);renderAccess()}};
+  $$('[data-ap]').forEach(b=>b.onclick=()=>run('Access approved','decideAccess',b.dataset.ap,'approve',$(`[data-ar="${b.dataset.ap}"]`).value));
+  $$('[data-dc]').forEach(b=>b.onclick=()=>run('Request declined','decideAccess',b.dataset.dc,'decline',''));
+  $$('[data-sr]').forEach(s=>s.onchange=()=>run('Role updated','setRole',s.dataset.sr,s.value));
+  $$('[data-rv]').forEach(b=>b.onclick=async()=>{const p=act.find(x=>x.email===b.dataset.rv);const go=await askConfirm({title:'Remove access for '+((p&&p.name)||b.dataset.rv)+'?',message:'They will no longer be able to open the app. You can approve them again later.',ok:'Remove access',cancel:'Cancel',danger:true});if(go)run('Access removed','revokeAccess',b.dataset.rv)});
+  $$('[data-en]').forEach(b=>b.onclick=()=>{const em=b.dataset.en,row=act.find(x=>x.email===em),host=b.parentElement;
+   host.innerHTML=`<input class="t" id="nm-in" style="padding:6px 10px;width:230px" value="${esc(row.name||'')}" aria-label="Name"> <button class="btn p sm" id="nm-save">Save</button> <button class="btn g sm" id="nm-x">Cancel</button>`;
+   $('#nm-in').focus();$('#nm-x').onclick=renderAccess;
+   $('#nm-save').onclick=async()=>{try{const v=$('#nm-in').value.trim();await api('updateName',em,v);if(em===ME.email)setMyName(v);toast('Name updated');renderAccess()}catch(e){toast(e.message,true)}}});
+ }catch(e){p.innerHTML=cards+`<div class="box"><div class="empty">${esc(e.message)}</div></div>`}}
+
+let LOG=[],LF={q:'',a:'',s:''};
+async function renderLog(){
+ const p=$('#p-log');if(!can('owner'))return;
+ if(!p.dataset.built){p.dataset.built=1;p.innerHTML=`<div class="bar2"><input class="t grow" id="l-q" type="search" placeholder="Search person, REQ # or field" aria-label="Search log"><select class="t" id="l-a"><option value="">All actions</option><option>Created</option><option>Edited</option><option>Deleted</option><option>Restored</option><option>Access</option></select><select class="t" id="l-s"><option value="">All sources</option><option>Web app</option><option>Google Sheet</option></select><button class="btn g" id="l-c">Clear filters</button><button class="btn g" id="l-x">Export CSV</button></div><div class="box"><ul class="tl" id="l-list"></ul></div>`;
+  $('#l-q').oninput=e=>{LF.q=e.target.value;drawLog()};$('#l-a').onchange=e=>{LF.a=e.target.value;drawLog()};$('#l-s').onchange=e=>{LF.s=e.target.value;drawLog()};
+  $('#l-c').onclick=()=>{LF={q:'',a:'',s:''};$('#l-q').value='';$('#l-a').value='';$('#l-s').value='';drawLog()};
+  $('#l-x').onclick=()=>csv('audit-log',['When','User','Action','REQ #','Field','Old','New','Source'],LOG.map(l=>[l.at,l.user,l.action,l.req,l.field,l.oldV,l.newV,l.source]))}
+ try{LOG=await api('getLog');drawLog()}catch(e){$('#l-list').innerHTML=`<li><div class="empty">${esc(e.message)}</div></li>`}}
+function drawLog(){const q=LF.q.toLowerCase(),rows=LOG.filter(l=>(!q||(l.user+' '+l.req+' '+l.field+' '+l.newV+' '+l.oldV).toLowerCase().includes(q))&&(!LF.a||(LF.a==='Access'?/^(Access|User added|Role changed|Name changed)/.test(l.action):l.action.startsWith(LF.a)))&&(!LF.s||l.source===LF.s));
+ const ic=a=>a.startsWith('Created')?['+','var(--orange)']:a.startsWith('Edited')||a==='Bulk edit'?['E','var(--mint)']:a.startsWith('Deleted')?['×','var(--quartz)']:a.startsWith('Restored')?['↺','var(--mint)']:['A','var(--rose)'];
+ $('#l-list').innerHTML=rows.map(l=>{const [c,bg]=ic(l.action);return `<li><span>${esc(fmt(l.at))}<br>${esc(l.user)}</span><span class="ic" style="background:${bg}">${c}</span><div>${esc(l.action)} ${l.req?'<b>'+esc(l.req)+'</b>':''} ${l.field?'· '+esc(l.field):''} <span class="hint">· ${esc(l.source)}</span>${(l.oldV||l.newV)?`<div class="diff">${l.oldV?'<s>'+esc(l.oldV.slice(0,160))+'</s> → ':''}<u>${esc(l.newV.slice(0,160))}</u></div>`:''}</div></li>`}).join('')||'<li><div class="empty">No log entries match.</div></li>'}
+
+window.addEventListener('load',()=>{if(!window.__DEMO)init()});
+</script></body></html>
